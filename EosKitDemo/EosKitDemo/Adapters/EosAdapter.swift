@@ -3,9 +3,11 @@ import RxSwift
 
 class EosAdapter {
     private let eosKit: EosKit
+    private let symbol: String
 
-    init(eosKit: EosKit) {
+    init(eosKit: EosKit, symbol: String) {
         self.eosKit = eosKit
+        self.symbol = symbol
     }
 
 }
@@ -13,11 +15,11 @@ class EosAdapter {
 extension EosAdapter: IAdapter {
 
     var name: String {
-        return "Eos"
+        return symbol
     }
 
     var coin: String {
-        return "EOS"
+        return symbol
     }
 
     var lastBlockHeight: Int? {
@@ -28,8 +30,8 @@ extension EosAdapter: IAdapter {
         return eosKit.syncState
     }
 
-    var balance: Double {
-        return eosKit.balance ?? 0
+    var balance: Decimal {
+        return eosKit.balance(symbol: symbol) ?? 0
     }
 
     var receiveAddress: String {

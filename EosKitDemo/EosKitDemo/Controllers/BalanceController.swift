@@ -16,7 +16,7 @@ class BalanceController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorInset = .zero
 
-        adapters.append(Manager.shared.eosAdapter)
+        adapters = Manager.shared.eosAdapters
 
         for (index, adapter) in adapters.enumerated() {
             Observable.merge([adapter.lastBlockHeightObservable, adapter.syncStateObservable, adapter.balanceObservable])

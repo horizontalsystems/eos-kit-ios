@@ -1,17 +1,20 @@
 import RxSwift
 import HSHDWalletKit
+import EosioSwift
 
 public class EosKit {
-    private let balanceSubject = PublishSubject<Double>()
+    private let balanceSubject = PublishSubject<Decimal>()
     private let syncStateSubject = PublishSubject<SyncState>()
 
-    private let state: EosKitState
+    private let balanceManager: BalanceManager
 
+    public let account: String
     public let uniqueId: String
     public let logger: Logger
 
-    init(state: EosKitState = EosKitState(), uniqueId: String, logger: Logger) {
-        self.state = state
+    init(balanceManager: BalanceManager, account: String, uniqueId: String, logger: Logger) {
+        self.balanceManager = balanceManager
+        self.account = account
         self.uniqueId = uniqueId
         self.logger = logger
     }
@@ -23,6 +26,7 @@ public class EosKit {
 extension EosKit {
 
     public func start() {
+        balanceManager.sync(account: account)
     }
 
     public func stop() {
@@ -31,11 +35,11 @@ extension EosKit {
     public func refresh() {
     }
 
-    public var balance: Double? {
-        return state.balance
+    public func balance(symbol: String) -> Decimal? {
+        return balanceManager.balance(symbol: symbol)
     }
 
-    public var balanceObservable: Observable<Double> {
+    public var balanceObservable: Observable<Decimal> {
         return balanceSubject.asObservable()
     }
 
@@ -53,12 +57,18 @@ extension EosKit {
 extension EosKit {
 
     public static func instance(networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
+        let account = "esseexchange" 
+
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
         let storage: IStorage = try Storage(databaseDirectoryUrl: dataDirectoryUrl(), databaseFileName: "eos-\(uniqueId)")
 
-        let eosKit = EosKit(uniqueId: uniqueId, logger: logger)
+        let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://peer1-jungle.eosphere.io:443")!)
+
+        let balanceManager = BalanceManager(storage: storage, rpcProvider: rpcProvider)
+
+        let eosKit = EosKit(balanceManager: balanceManager, account: account, uniqueId: uniqueId, logger: logger)
 
         return eosKit
     }

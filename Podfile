@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '12.0'
 use_frameworks!
 
 inhibit_all_warnings!
@@ -14,6 +14,10 @@ def common_pods
   pod 'RxSwift', '~> 5.0'
   pod 'GRDB.swift', '~> 4.0'
   pod 'Alamofire', '~> 4.0'
+
+  pod 'EosioSwift', '~> 0.1.1'
+  pod 'EosioSwiftAbieosSerializationProvider', '~> 0.1.1'
+  pod 'EosioSwiftSoftkeySignatureProvider', '~> 0.1.1'
 end
 
 def test_pods

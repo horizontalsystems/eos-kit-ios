@@ -1,8 +1,8 @@
 import RxSwift
 
 protocol IStorage {
-    var balance: Double? { get }
-    func save(balance: Double)
+    func balance(symbol: String) -> Balance?
+    func save(balances: [Balance])
 }
 
 protocol IReachabilityManager {

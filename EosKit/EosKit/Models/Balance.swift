@@ -1,13 +1,11 @@
 import GRDB
 
 class Balance: Record {
-    private static let primaryKey = "primaryKey"
+    let symbol: String
+    let value: Decimal
 
-    private let primaryKey: String = Balance.primaryKey
-
-    let value: Double
-
-    init(value: Double) {
+    init(symbol: String, value: Decimal) {
+        self.symbol = symbol
         self.value = value
 
         super.init()
@@ -18,18 +16,19 @@ class Balance: Record {
     }
 
     enum Columns: String, ColumnExpression {
-        case primaryKey
+        case symbol
         case value
     }
 
     required init(row: Row) {
+        symbol = row[Columns.symbol]
         value = row[Columns.value]
 
         super.init(row: row)
     }
 
     override func encode(to container: inout PersistenceContainer) {
-        container[Columns.primaryKey] = primaryKey
+        container[Columns.symbol] = symbol
         container[Columns.value] = value
     }
 

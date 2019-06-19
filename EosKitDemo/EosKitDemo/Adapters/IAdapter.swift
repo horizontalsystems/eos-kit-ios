@@ -8,7 +8,7 @@ protocol IAdapter {
 
     var lastBlockHeight: Int? { get }
     var syncState: EosKit.SyncState { get }
-    var balance: Double { get }
+    var balance: Decimal { get }
 
     var receiveAddress: String { get }
 

@@ -9,7 +9,7 @@ class Manager {
 
     var eosKit: EosKit!
 
-    var eosAdapter: EosAdapter!
+    var eosAdapters = [EosAdapter]()
 
     init() {
         if let words = savedWords {
@@ -28,7 +28,7 @@ class Manager {
         clearWords()
 
         eosKit = nil
-        eosAdapter = nil
+        eosAdapters = []
     }
 
     private func initEosKit(words: [String]) {
@@ -40,7 +40,11 @@ class Manager {
                 minLogLevel: configuration.minLogLevel
         )
 
-        eosAdapter = EosAdapter(eosKit: eosKit)
+        eosAdapters = [
+            EosAdapter(eosKit: eosKit, symbol: "EOS"),
+            EosAdapter(eosKit: eosKit, symbol: "JUNGLE"),
+            EosAdapter(eosKit: eosKit, symbol: "SYS"),
+        ]
 
         self.eosKit = eosKit
 

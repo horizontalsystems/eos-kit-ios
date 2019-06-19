@@ -1,19 +1,46 @@
 PODS:
   - Alamofire (4.8.2)
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
   - Cuckoo (1.0.6)
+  - EosioSwift (0.1.1):
+    - BigInt (~> 3.1)
+    - PromiseKit (~> 6.8)
+  - EosioSwiftAbieosSerializationProvider (0.1.1):
+    - EosioSwift (~> 0.1.1)
+  - EosioSwiftEcc (0.1.1):
+    - EosioSwift (~> 0.1.1)
+    - GRKOpenSSLFramework (~> 1.0)
+  - EosioSwiftSoftkeySignatureProvider (0.1.1):
+    - EosioSwift (~> 0.1.1)
+    - EosioSwiftEcc (~> 0.1.1)
   - GRDB.swift (4.0.1):
     - GRDB.swift/standard (= 4.0.1)
   - GRDB.swift/standard (4.0.1)
+  - GRKOpenSSLFramework (1.0.2.16)
   - HSCryptoKit (1.4.2)
   - HSHDWalletKit (1.1):
     - HSCryptoKit (~> 1.4)
   - Nimble (8.0.2)
+  - PromiseKit (6.9.0):
+    - PromiseKit/CorePromise (= 6.9.0)
+    - PromiseKit/Foundation (= 6.9.0)
+    - PromiseKit/UIKit (= 6.9.0)
+  - PromiseKit/CorePromise (6.9.0)
+  - PromiseKit/Foundation (6.9.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.9.0):
+    - PromiseKit/CorePromise
   - Quick (2.1.0)
   - RxSwift (5.0.0)
+  - SipHash (1.2.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - Cuckoo
+  - EosioSwift (~> 0.1.1)
+  - EosioSwiftAbieosSerializationProvider (~> 0.1.1)
+  - EosioSwiftSoftkeySignatureProvider (~> 0.1.1)
   - GRDB.swift (~> 4.0)
   - HSHDWalletKit (~> 1.1)
   - Nimble
@@ -23,24 +50,40 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - BigInt
     - Cuckoo
+    - EosioSwift
+    - EosioSwiftAbieosSerializationProvider
+    - EosioSwiftEcc
+    - EosioSwiftSoftkeySignatureProvider
     - GRDB.swift
+    - GRKOpenSSLFramework
     - HSCryptoKit
     - HSHDWalletKit
     - Nimble
+    - PromiseKit
     - Quick
     - RxSwift
+    - SipHash
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Cuckoo: 8074fc309159c4862665b83798f5ad03e061e8bd
+  EosioSwift: d0710f56b8afc6408faf766427538f2af046c595
+  EosioSwiftAbieosSerializationProvider: 281b16b5fe0787aa1cf1c709d9ca3f5696b8ebba
+  EosioSwiftEcc: 24800b7d1577f13d64413ded2a36f6993ebf7896
+  EosioSwiftSoftkeySignatureProvider: d60802257e87ad3ff973c760a4b4620e246e485f
   GRDB.swift: 106a830decf1d92a3fc63c6d6a2f6586f6187297
+  GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
   HSCryptoKit: 4dcb2506b5d8d85c4a31ab57734df3d1f7ea17f9
   HSHDWalletKit: 1d946bd24bd307cc494141f4e518d25db814f050
   Nimble: 622629381bda1dd5678162f21f1368cec7cbba60
+  PromiseKit: 97397236f9e9c443d5b70a941d49cad25160af7a
   Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
 
-PODFILE CHECKSUM: 604631b4c1470f5d3843bea1ebceee5fde62884d
+PODFILE CHECKSUM: c95cb0757fd7b06e9530836dc350d7aa545a5f3f
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.7.2

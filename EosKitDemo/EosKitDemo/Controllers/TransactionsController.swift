@@ -19,7 +19,7 @@ class TransactionsController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorInset = .zero
 
-        adapters.append(Manager.shared.eosAdapter)
+        adapters = Manager.shared.eosAdapters
 
         for (index, adapter) in adapters.enumerated() {
             segmentedControl.insertSegment(withTitle: adapter.coin, at: index, animated: false)
