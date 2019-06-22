@@ -3,15 +3,12 @@ import RxSwift
 
 class EosAdapter {
     private let eosKit: EosKit
-    private let token: String
-    private let symbol: String
+    private let asset: Asset
 
     init(eosKit: EosKit, token: String, symbol: String) {
         self.eosKit = eosKit
-        self.token = token
-        self.symbol = symbol
 
-        eosKit.register(token: token, symbol: symbol)
+        asset = eosKit.register(token: token, symbol: symbol)
     }
 
 }
@@ -19,11 +16,11 @@ class EosAdapter {
 extension EosAdapter: IAdapter {
 
     var name: String {
-        return "\(symbol) - \(token)"
+        return "\(asset.symbol) - \(asset.token)"
     }
 
     var coin: String {
-        return symbol
+        return asset.symbol
     }
 
     var lastBlockHeight: Int? {
@@ -31,11 +28,11 @@ extension EosAdapter: IAdapter {
     }
 
     var syncState: EosKit.SyncState {
-        return eosKit.syncState(token: token, symbol: symbol) ?? .notSynced
+        return asset.syncState
     }
 
     var balance: Decimal {
-        return eosKit.balance(token: token, symbol: symbol) ?? 0
+        return asset.balance
     }
 
     var receiveAddress: String {
@@ -47,11 +44,11 @@ extension EosAdapter: IAdapter {
     }
 
     var syncStateObservable: Observable<Void> {
-        return eosKit.syncStateObservable(token: token, symbol: symbol)?.map { _ in () } ?? Observable.empty()
+        return asset.syncStateObservable.map { _ in () }
     }
 
     var balanceObservable: Observable<Void> {
-        return eosKit.balanceObservable(token: token, symbol: symbol)?.map { _ in () } ?? Observable.empty()
+        return asset.balanceObservable.map { _ in () }
     }
 
     var transactionsObservable: Observable<Void> {
@@ -67,7 +64,7 @@ extension EosAdapter: IAdapter {
     }
 
     func transactionsSingle(fromActionSequence: Int?, limit: Int?) -> Single<[Transaction]> {
-        return eosKit.transactionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+        return eosKit.transactionsSingle(asset: asset, fromActionSequence: fromActionSequence, limit: limit)
     }
 
 }

@@ -32,13 +32,15 @@ public class EosKit {
 
 extension EosKit {
 
-    public func register(token: String, symbol: String) {
+    public func register(token: String, symbol: String) -> Asset {
         let balance = balanceManager.balance(token: token, symbol: symbol)?.quantity.amount ?? 0
-        assets.append(Asset(token: token, symbol: symbol, balance: balance))
+        let asset = Asset(token: token, symbol: symbol, balance: balance)
+        assets.append(asset)
+        return asset
     }
 
-    public func unregister(token: String, symbol: String) {
-        assets.removeAll { $0.token == token && $0.symbol == symbol }
+    public func unregister(asset: Asset) {
+        assets.removeAll { $0 == asset }
     }
 
     public func refresh() {
@@ -55,24 +57,8 @@ extension EosKit {
         actionManager.sync(account: account)
     }
 
-    public func balance(token: String, symbol: String) -> Decimal? {
-        return asset(token: token, symbol: symbol)?.balance
-    }
-
-    public func balanceObservable(token: String, symbol: String) -> Observable<Decimal>? {
-        return asset(token: token, symbol: symbol)?.balanceSubject.asObservable()
-    }
-
-    public func syncState(token: String, symbol: String) -> SyncState? {
-        return asset(token: token, symbol: symbol)?.syncState
-    }
-
-    public func syncStateObservable(token: String, symbol: String) -> Observable<SyncState>? {
-        return asset(token: token, symbol: symbol)?.syncStateSubject.asObservable()
-    }
-
-    public func transactionsSingle(token: String, symbol: String, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
-        return actionManager.transactionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+    public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
+        return actionManager.transactionsSingle(token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
     }
 
 }

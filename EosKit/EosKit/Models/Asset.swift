@@ -1,28 +1,49 @@
 import RxSwift
 
-class Asset {
-    let token: String
-    let symbol: String
+public class Asset {
+    public let token: String
+    public let symbol: String
 
-    var balance: Decimal {
+    public var balance: Decimal {
         didSet {
             balanceSubject.onNext(balance)
         }
     }
 
-    var syncState: EosKit.SyncState = .notSynced {
+    public var syncState: EosKit.SyncState = .notSynced {
         didSet {
             syncStateSubject.onNext(syncState)
         }
     }
 
-    let syncStateSubject = PublishSubject<EosKit.SyncState>()
-    let balanceSubject = PublishSubject<Decimal>()
-    let transactionsSubject = PublishSubject<Transaction>()
+    private let syncStateSubject = PublishSubject<EosKit.SyncState>()
+    private let balanceSubject = PublishSubject<Decimal>()
+    private let transactionsSubject = PublishSubject<[Transaction]>()
 
     init(token: String, symbol: String, balance: Decimal) {
         self.token = token
         self.symbol = symbol
         self.balance = balance
     }
+
+    public var syncStateObservable: Observable<EosKit.SyncState> {
+        return syncStateSubject.asObservable()
+    }
+
+    public var balanceObservable: Observable<Decimal> {
+        return balanceSubject.asObservable()
+    }
+
+    public var transactionsObservable: Observable<[Transaction]> {
+        return transactionsSubject.asObservable()
+    }
+
+}
+
+extension Asset: Equatable {
+
+    public static func ==(lhs: Asset, rhs: Asset) -> Bool {
+        return lhs.token == rhs.token && lhs.symbol == rhs.symbol
+    }
+
 }
