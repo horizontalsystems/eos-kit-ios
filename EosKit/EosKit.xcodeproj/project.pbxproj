@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		067F9C8DFED5F8917334396C /* Pods_EosKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC149B9EFD3F991B73C8A74 /* Pods_EosKitTests.framework */; };
 		11B3506080199717F92EC5CB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35893177645F06E2AE8FB /* NetworkManager.swift */; };
+		11B350DAC359F4E916555B87 /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35A79C9C6DDA3F51C3DB5 /* ActionManager.swift */; };
+		11B3538D482728C80CD65737 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B354AB1F2BD210FB55F1DC /* Action.swift */; };
 		11B356030FB7878C2BD0C5A8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B357626B809CC6A964D5B1 /* Logger.swift */; };
 		11B356BF054DFC99D8EB19E5 /* GeneratedMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B359F34D40C2E21B4CD620 /* GeneratedMocks.swift */; };
 		11B3594B852BB68FD948F554 /* Balance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B355DE59E991662600BAE4 /* Balance.swift */; };
-		11B35B80064FF14F28BCC633 /* BalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B359823C1CC2CFC943A638 /* BalanceManager.swift */; };
+		11B35A472C4A5229028432E8 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B357967B62A00F4AAFDF01 /* Quantity.swift */; };
+		11B35B9EBF84FE6E7C921582 /* BalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3589B3BA1D4AC1187569B /* BalanceManager.swift */; };
 		11B35BCD9A16AEBDDCA1982A /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35FEC39893D5963D865B6 /* Storage.swift */; };
+		11B35EAFCAC2D9BD68084378 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B350A2D8FE59A410FF763C /* Transaction.swift */; };
 		2A32867AB048F30B29C71647 /* Pods_EosKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD845577B4E49A385855E7D6 /* Pods_EosKit.framework */; };
 		2FA5DB25840B287D4DE5CEDE /* EosKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D197843DCF8B688B94E0 /* EosKit.swift */; };
 		3A19DED1216F4422009109F2 /* EosKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A3B59A4216B1B13001C5E99 /* EosKit.framework */; };
@@ -35,11 +39,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11B350A2D8FE59A410FF763C /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		11B354AB1F2BD210FB55F1DC /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		11B355DE59E991662600BAE4 /* Balance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balance.swift; sourceTree = "<group>"; };
 		11B357626B809CC6A964D5B1 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		11B357967B62A00F4AAFDF01 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		11B35893177645F06E2AE8FB /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		11B359823C1CC2CFC943A638 /* BalanceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceManager.swift; sourceTree = "<group>"; };
+		11B3589B3BA1D4AC1187569B /* BalanceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceManager.swift; sourceTree = "<group>"; };
 		11B359F34D40C2E21B4CD620 /* GeneratedMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedMocks.swift; sourceTree = "<group>"; };
+		11B35A79C9C6DDA3F51C3DB5 /* ActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
 		11B35FEC39893D5963D865B6 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		247F610A5A3B6BFA505E1FD1 /* Pods-EosKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosKit.release.xcconfig"; path = "Target Support Files/Pods-EosKit/Pods-EosKit.release.xcconfig"; sourceTree = "<group>"; };
 		2FA5D197843DCF8B688B94E0 /* EosKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosKit.swift; sourceTree = "<group>"; };
@@ -80,14 +88,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		11B35F42B9D533B72AEAD112 /* Syncers */ = {
-			isa = PBXGroup;
-			children = (
-				11B359823C1CC2CFC943A638 /* BalanceManager.swift */,
-			);
-			path = Syncers;
-			sourceTree = "<group>";
-		};
 		3A19DECD216F4422009109F2 /* EosKitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,7 +123,6 @@
 				58AAAD1D445002A6D96D90DA /* Core */,
 				58AAAD0293AB2F9E1C035A26 /* Models */,
 				58AAAAEDBCD0E5DDE0F7E9D4 /* Managers */,
-				11B35F42B9D533B72AEAD112 /* Syncers */,
 				3A3B59A7216B1B13001C5E99 /* EosKit.h */,
 				3A3B59A8216B1B13001C5E99 /* Info.plist */,
 			);
@@ -135,6 +134,8 @@
 			children = (
 				58AAA0F77F10D6C404DFCD55 /* ReachabilityManager.swift */,
 				11B35893177645F06E2AE8FB /* NetworkManager.swift */,
+				11B3589B3BA1D4AC1187569B /* BalanceManager.swift */,
+				11B35A79C9C6DDA3F51C3DB5 /* ActionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -143,6 +144,9 @@
 			isa = PBXGroup;
 			children = (
 				11B355DE59E991662600BAE4 /* Balance.swift */,
+				11B350A2D8FE59A410FF763C /* Transaction.swift */,
+				11B354AB1F2BD210FB55F1DC /* Action.swift */,
+				11B357967B62A00F4AAFDF01 /* Quantity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -390,7 +394,11 @@
 				2FA5DB25840B287D4DE5CEDE /* EosKit.swift in Sources */,
 				11B35BCD9A16AEBDDCA1982A /* Storage.swift in Sources */,
 				11B3594B852BB68FD948F554 /* Balance.swift in Sources */,
-				11B35B80064FF14F28BCC633 /* BalanceManager.swift in Sources */,
+				11B35B9EBF84FE6E7C921582 /* BalanceManager.swift in Sources */,
+				11B350DAC359F4E916555B87 /* ActionManager.swift in Sources */,
+				11B35EAFCAC2D9BD68084378 /* Transaction.swift in Sources */,
+				11B3538D482728C80CD65737 /* Action.swift in Sources */,
+				11B35A472C4A5229028432E8 /* Quantity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

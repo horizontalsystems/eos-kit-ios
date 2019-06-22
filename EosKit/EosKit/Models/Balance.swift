@@ -1,12 +1,12 @@
 import GRDB
 
 class Balance: Record {
-    let symbol: String
-    let value: Decimal
+    let token: String
+    let quantity: Quantity
 
-    init(symbol: String, value: Decimal) {
-        self.symbol = symbol
-        self.value = value
+    init(token: String, quantity: Quantity) {
+        self.token = token
+        self.quantity = quantity
 
         super.init()
     }
@@ -16,20 +16,22 @@ class Balance: Record {
     }
 
     enum Columns: String, ColumnExpression {
+        case token
+        case amount
         case symbol
-        case value
     }
 
     required init(row: Row) {
-        symbol = row[Columns.symbol]
-        value = row[Columns.value]
+        token = row[Columns.token]
+        quantity = Quantity(amount: row[Columns.amount], symbol: row[Columns.symbol])
 
         super.init(row: row)
     }
 
     override func encode(to container: inout PersistenceContainer) {
-        container[Columns.symbol] = symbol
-        container[Columns.value] = value
+        container[Columns.token] = token
+        container[Columns.amount] = quantity.amount
+        container[Columns.symbol] = quantity.symbol
     }
 
 }

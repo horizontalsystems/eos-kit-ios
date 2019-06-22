@@ -1,8 +1,12 @@
 import RxSwift
 
 protocol IStorage {
-    func balance(symbol: String) -> Balance?
+    func balance(token: String, symbol: String) -> Balance?
     func save(balances: [Balance])
+
+    func save(actions: [Action])
+
+    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]>
 }
 
 protocol IReachabilityManager {

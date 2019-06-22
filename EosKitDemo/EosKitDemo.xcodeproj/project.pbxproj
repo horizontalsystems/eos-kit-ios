@@ -17,7 +17,6 @@
 		11B355CE1B19409595DDB55B /* ReceiveController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B354EDEC2F9FDA1699B376 /* ReceiveController.xib */; };
 		11B355FFDDB052DA4AC3FE42 /* SendController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B351A4E88DAB5E6BF84485 /* SendController.xib */; };
 		11B35634EDC9CD1B0CFA5478 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3510CCAE0A2454000D4F1 /* Configuration.swift */; };
-		11B3575F63581EC844987488 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35BDED2EDA2070FB64F7E /* TransactionRecord.swift */; };
 		11B359C7B7CAD9961BF401CE /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35692FF8EBC01B66F7CCD /* Signal.swift */; };
 		11B35BDD5F1AC324EB96FBD0 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35B0F9C8366CDB491D34C /* MainController.swift */; };
 		11B35D187F162D8E4FC4B47D /* TransactionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3588862756DCA125CCFA2 /* TransactionsController.swift */; };
@@ -59,7 +58,6 @@
 		11B356F556750208E0EB231E /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		11B3588862756DCA125CCFA2 /* TransactionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsController.swift; sourceTree = "<group>"; };
 		11B35B0F9C8366CDB491D34C /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
-		11B35BDED2EDA2070FB64F7E /* TransactionRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionRecord.swift; sourceTree = "<group>"; };
 		11B35C8CE1B31790C7BACF0B /* WordsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordsController.swift; sourceTree = "<group>"; };
 		11B35D5FB2C4481394583EF9 /* BalanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceController.swift; sourceTree = "<group>"; };
 		11B35E3DF616DA9B67C058D3 /* EosAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosAdapter.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 			isa = PBXGroup;
 			children = (
 				11B356F556750208E0EB231E /* Manager.swift */,
-				11B35BDED2EDA2070FB64F7E /* TransactionRecord.swift */,
 				11B35692FF8EBC01B66F7CCD /* Signal.swift */,
 			);
 			path = Core;
@@ -317,7 +314,6 @@
 				11B35D187F162D8E4FC4B47D /* TransactionsController.swift in Sources */,
 				11B35F5EDBDF00DC22EE2428 /* BalanceController.swift in Sources */,
 				11B3542ACE791123A3F1A5AF /* Manager.swift in Sources */,
-				11B3575F63581EC844987488 /* TransactionRecord.swift in Sources */,
 				11B359C7B7CAD9961BF401CE /* Signal.swift in Sources */,
 				11B3550F971365331ABDCF7D /* EosAdapter.swift in Sources */,
 				D3927B93226DA95A005094C4 /* BalanceCell.swift in Sources */,

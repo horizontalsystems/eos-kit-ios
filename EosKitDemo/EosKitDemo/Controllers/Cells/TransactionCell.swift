@@ -1,5 +1,5 @@
-import Foundation
 import UIKit
+import EosKit
 
 class TransactionCell: UITableViewCell {
     static let dateFormatter: DateFormatter = {
@@ -12,33 +12,25 @@ class TransactionCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var valueLabel: UILabel?
 
-    func bind(transaction: TransactionRecord, coin: String, lastBlockHeight: Int?) {
-        var confirmations = "n/a"
-
-        if let lastBlockHeight = lastBlockHeight, let blockHeight = transaction.blockHeight {
-            confirmations = "\(lastBlockHeight - blockHeight + 1)"
-        }
-
+    func bind(transaction: Transaction, coin: String, lastBlockHeight: Int?) {
         set(string: """
-                    Tx Hash:
-                    Tx Index:
-                    Inter Tx Index:
+                    Tx Id:
+                    Sequence:
                     Date:
-                    Value:
-                    \(transaction.from.mine ? "To" : "From")
-                    Block:
-                    Confirmations:
+                    Quantity:
+                    From:
+                    To:
+                    Memo:
                     """, alignment: .left, label: titleLabel)
 
         set(string: """
-                    \(format(hash: transaction.transactionHash))
-                    \(transaction.transactionIndex)
-                    \(transaction.interTransactionIndex)
-                    \(TransactionCell.dateFormatter.string(from: Date(timeIntervalSince1970: transaction.timestamp)))
-                    \(transaction.amount) \(coin)
-                    \(format(hash: transaction.from.mine ? transaction.to.address : transaction.from.address))
-                    \(transaction.blockHeight.map { "# \($0)" } ?? "n/a")
-                    \(confirmations)
+                    \(shorten(string: transaction.id))
+                    \(transaction.actionSequence)
+                    \(TransactionCell.dateFormatter.string(from: transaction.date))
+                    \(transaction.quantity.amount) \(transaction.quantity.symbol)
+                    \(transaction.from)
+                    \(transaction.to)
+                    \(transaction.memo.map { shorten(string: $0) } ?? "nil")
                     """, alignment: .right, label: valueLabel)
     }
 
@@ -53,12 +45,12 @@ class TransactionCell: UITableViewCell {
         label?.attributedText = attributedString
     }
 
-    private func format(hash: String) -> String {
-        guard hash.count > 22 else {
-            return hash
+    private func shorten(string: String) -> String {
+        guard string.count > 22 else {
+            return string
         }
 
-        return "\(hash[..<hash.index(hash.startIndex, offsetBy: 10)])...\(hash[hash.index(hash.endIndex, offsetBy: -10)...])"
+        return "\(string[..<string.index(string.startIndex, offsetBy: 10)])...\(string[string.index(string.endIndex, offsetBy: -10)...])"
     }
 
 }

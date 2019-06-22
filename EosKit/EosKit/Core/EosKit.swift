@@ -7,13 +7,15 @@ public class EosKit {
     private let syncStateSubject = PublishSubject<SyncState>()
 
     private let balanceManager: BalanceManager
+    private let actionManager: ActionManager
 
     public let account: String
     public let uniqueId: String
     public let logger: Logger
 
-    init(balanceManager: BalanceManager, account: String, uniqueId: String, logger: Logger) {
+    init(balanceManager: BalanceManager, actionManager: ActionManager, account: String, uniqueId: String, logger: Logger) {
         self.balanceManager = balanceManager
+        self.actionManager = actionManager
         self.account = account
         self.uniqueId = uniqueId
         self.logger = logger
@@ -26,7 +28,9 @@ public class EosKit {
 extension EosKit {
 
     public func start() {
-        balanceManager.sync(account: account)
+        balanceManager.sync(token: "eosio.token", account: account)
+        balanceManager.sync(token: "betdicetoken", account: account)
+        actionManager.sync(account: account)
     }
 
     public func stop() {
@@ -35,8 +39,8 @@ extension EosKit {
     public func refresh() {
     }
 
-    public func balance(symbol: String) -> Decimal? {
-        return balanceManager.balance(symbol: symbol)
+    public func balance(token: String, symbol: String) -> Decimal? {
+        return balanceManager.balance(token: token, symbol: symbol)?.quantity.amount
     }
 
     public var balanceObservable: Observable<Decimal> {
@@ -51,24 +55,28 @@ extension EosKit {
         return syncStateSubject.asObservable()
     }
 
-}
+    public func transactionsSingle(token: String, symbol: String, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
+        return actionManager.transactionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+    }
 
+}
 
 extension EosKit {
 
     public static func instance(networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
-        let account = "esseexchange" 
+        let account = "esseexchange"
 
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
         let storage: IStorage = try Storage(databaseDirectoryUrl: dataDirectoryUrl(), databaseFileName: "eos-\(uniqueId)")
 
-        let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://peer1-jungle.eosphere.io:443")!)
+        let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://eos.greymass.com")!)
 
         let balanceManager = BalanceManager(storage: storage, rpcProvider: rpcProvider)
+        let actionManager = ActionManager(storage: storage, rpcProvider: rpcProvider)
 
-        let eosKit = EosKit(balanceManager: balanceManager, account: account, uniqueId: uniqueId, logger: logger)
+        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, account: account, uniqueId: uniqueId, logger: logger)
 
         return eosKit
     }

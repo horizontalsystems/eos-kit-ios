@@ -1,3 +1,4 @@
+import RxSwift
 import GRDB
 
 class Storage {
@@ -16,10 +17,30 @@ class Storage {
 
         migrator.registerMigration("createBalance") { db in
             try db.create(table: Balance.databaseTableName) { t in
+                t.column(Balance.Columns.token.name, .text).notNull()
                 t.column(Balance.Columns.symbol.name, .text).notNull()
-                t.column(Balance.Columns.value.name, .text).notNull()
+                t.column(Balance.Columns.amount.name, .text).notNull()
 
-                t.primaryKey([Balance.Columns.symbol.name], onConflict: .replace)
+                t.primaryKey([Balance.Columns.token.name, Balance.Columns.symbol.name], onConflict: .replace)
+            }
+        }
+
+        migrator.registerMigration("createAction") { db in
+            try db.create(table: Action.databaseTableName) { t in
+                t.column(Action.Columns.accountActionSequence.name, .integer).notNull()
+                t.column(Action.Columns.blockNumber.name, .integer).notNull()
+                t.column(Action.Columns.blockTime.name, .text).notNull()
+                t.column(Action.Columns.transactionId.name, .text).notNull()
+                t.column(Action.Columns.account.name, .text).notNull()
+                t.column(Action.Columns.name.name, .text).notNull()
+
+                t.column(Action.Columns.amount.name, .text)
+                t.column(Action.Columns.symbol.name, .text)
+                t.column(Action.Columns.from.name, .text)
+                t.column(Action.Columns.to.name, .text)
+                t.column(Action.Columns.memo.name, .text)
+
+                t.primaryKey([Action.Columns.accountActionSequence.name], onConflict: .replace)
             }
         }
 
@@ -30,9 +51,9 @@ class Storage {
 
 extension Storage: IStorage {
 
-    func balance(symbol: String) -> Balance? {
+    func balance(token: String, symbol: String) -> Balance? {
         return try? dbPool.read { db in
-            try Balance.filter(Balance.Columns.symbol == symbol).fetchOne(db)
+            try Balance.filter(Balance.Columns.token == token && Balance.Columns.symbol == symbol).fetchOne(db)
         }
     }
 
@@ -41,6 +62,36 @@ extension Storage: IStorage {
             for balance in  balances {
                 try balance.insert(db)
             }
+        }
+    }
+
+    func save(actions: [Action]) {
+        _ = try? dbPool.write { db in
+            for action in actions {
+                try action.insert(db)
+            }
+        }
+    }
+
+    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
+        return Single.create { [weak self] observer in
+            try? self?.dbPool.read { db in
+                var request = Action.filter(Action.Columns.account == token && Action.Columns.name == "transfer" && Action.Columns.symbol == symbol)
+
+                if let fromActionSequence = fromActionSequence {
+                    request = request.filter(Action.Columns.accountActionSequence < fromActionSequence)
+                }
+
+                if let limit = limit {
+                    request = request.limit(limit)
+                }
+
+                let actions = try request.order(Action.Columns.accountActionSequence.desc).fetchAll(db)
+
+                observer(.success(actions))
+            }
+
+            return Disposables.create()
         }
     }
 

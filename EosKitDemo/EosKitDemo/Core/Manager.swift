@@ -41,9 +41,8 @@ class Manager {
         )
 
         eosAdapters = [
-            EosAdapter(eosKit: eosKit, symbol: "EOS"),
-            EosAdapter(eosKit: eosKit, symbol: "JUNGLE"),
-            EosAdapter(eosKit: eosKit, symbol: "SYS"),
+            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "EOS"),
+            EosAdapter(eosKit: eosKit, token: "betdicetoken", symbol: "DICE"),
         ]
 
         self.eosKit = eosKit

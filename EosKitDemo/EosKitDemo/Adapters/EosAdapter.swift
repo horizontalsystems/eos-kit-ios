@@ -3,10 +3,12 @@ import RxSwift
 
 class EosAdapter {
     private let eosKit: EosKit
+    private let token: String
     private let symbol: String
 
-    init(eosKit: EosKit, symbol: String) {
+    init(eosKit: EosKit, token: String, symbol: String) {
         self.eosKit = eosKit
+        self.token = token
         self.symbol = symbol
     }
 
@@ -15,7 +17,7 @@ class EosAdapter {
 extension EosAdapter: IAdapter {
 
     var name: String {
-        return symbol
+        return "\(symbol) - \(token)"
     }
 
     var coin: String {
@@ -31,7 +33,7 @@ extension EosAdapter: IAdapter {
     }
 
     var balance: Decimal {
-        return eosKit.balance(symbol: symbol) ?? 0
+        return eosKit.balance(token: token, symbol: symbol) ?? 0
     }
 
     var receiveAddress: String {
@@ -62,8 +64,8 @@ extension EosAdapter: IAdapter {
         return Single.just(())
     }
 
-    func transactionsSingle(from: (hash: String, interTransactionIndex: Int)?, limit: Int?) -> Single<[TransactionRecord]> {
-        return Single.just([])
+    func transactionsSingle(fromActionSequence: Int?, limit: Int?) -> Single<[Transaction]> {
+        return eosKit.transactionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
     }
 
 }

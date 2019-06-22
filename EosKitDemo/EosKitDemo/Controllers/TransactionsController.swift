@@ -1,11 +1,12 @@
 import UIKit
 import RxSwift
+import EosKit
 
 class TransactionsController: UITableViewController {
     private let disposeBag = DisposeBag()
 
     private var adapters = [IAdapter]()
-    private var transactions = [TransactionRecord]()
+    private var transactions = [Transaction]()
 
     private let segmentedControl = UISegmentedControl()
 
@@ -78,7 +79,7 @@ class TransactionsController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIPasteboard.general.setValue(transactions[indexPath.row].transactionHash, forPasteboardType: "public.plain-text")
+        UIPasteboard.general.setValue(transactions[indexPath.row].id, forPasteboardType: "public.plain-text")
 
         let alert = UIAlertController(title: "Success", message: "Transaction Hash copied", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -98,9 +99,9 @@ class TransactionsController: UITableViewController {
 
         loading = true
 
-        let from = transactions.last.map { (hash: $0.transactionHash, interTransactionIndex: $0.interTransactionIndex) }
+        let fromActionSequence = transactions.last?.actionSequence
 
-        currentAdapter.transactionsSingle(from: from, limit: limit)
+        currentAdapter.transactionsSingle(fromActionSequence: fromActionSequence, limit: limit)
                 .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [weak self] transactions in
@@ -109,7 +110,7 @@ class TransactionsController: UITableViewController {
                 .disposed(by: disposeBag)
     }
 
-    private func onLoad(transactions: [TransactionRecord]) {
+    private func onLoad(transactions: [Transaction]) {
         self.transactions.append(contentsOf: transactions)
 
         tableView.reloadData()
