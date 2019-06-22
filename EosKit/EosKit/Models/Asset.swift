@@ -18,7 +18,7 @@ public class Asset {
 
     private let syncStateSubject = PublishSubject<EosKit.SyncState>()
     private let balanceSubject = PublishSubject<Decimal>()
-    private let transactionsSubject = PublishSubject<[Transaction]>()
+    let transactionsSubject = PublishSubject<[Transaction]>()
 
     init(token: String, symbol: String, balance: Decimal) {
         self.token = token

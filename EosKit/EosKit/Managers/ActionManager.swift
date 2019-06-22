@@ -2,10 +2,14 @@ import RxSwift
 import EosioSwift
 
 class ActionManager {
+    weak var delegate: IActionManagerDelegate?
+
+    private let account: String
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
 
-    init(storage: IStorage, rpcProvider: EosioRpcProvider) {
+    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider) {
+        self.account = account
         self.storage = storage
         self.rpcProvider = rpcProvider
     }
@@ -17,17 +21,17 @@ class ActionManager {
                 }
     }
 
-    func sync(account: String) {
-        let request = EosioRpcHistoryActionsRequest(position: 0, offset: 20, accountName: account)
+    func sync() {
+        let lastSequence = storage.lastAction?.accountActionSequence ?? -1
+
+        let request = EosioRpcHistoryActionsRequest(position: Int32(lastSequence + 1), offset: 1000, accountName: account)
 
         rpcProvider.getActions(requestParameters: request) { [weak self] result in
             switch result {
             case .success(let response):
                 self?.handle(response: response)
             case .failure(let error):
-                print("ACTIONS REFRESH FAILURE")
-                print(error)
-                print(error.reason)
+                print("ActionManager sync failure: \(error.reason)")
             }
         }
     }
@@ -37,7 +41,15 @@ class ActionManager {
 
         let actions = response.actions.map { action(from: $0) }
 
+        guard !actions.isEmpty else {
+            return
+        }
+
         storage.save(actions: actions)
+
+        delegate?.didSync(actions: actions)
+
+        sync()
     }
 
     private func action(from actionResponse: EosioRpcActionsResponseAction) -> Action {

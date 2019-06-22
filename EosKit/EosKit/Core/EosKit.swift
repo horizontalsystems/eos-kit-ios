@@ -8,17 +8,13 @@ public class EosKit {
     private let balanceManager: BalanceManager
     private let actionManager: ActionManager
 
-    public let account: String
-    public let uniqueId: String
-    public let logger: Logger
+    private let logger: Logger
 
     private var assets = [Asset]()
 
-    init(balanceManager: BalanceManager, actionManager: ActionManager, account: String, uniqueId: String, logger: Logger) {
+    init(balanceManager: BalanceManager, actionManager: ActionManager, logger: Logger) {
         self.balanceManager = balanceManager
         self.actionManager = actionManager
-        self.account = account
-        self.uniqueId = uniqueId
         self.logger = logger
     }
 
@@ -51,10 +47,10 @@ extension EosKit {
         let tokens = assets.map { $0.token }
 
         for token in Set(tokens) {
-            balanceManager.sync(token: token, account: account)
+            balanceManager.sync(token: token)
         }
 
-        actionManager.sync(account: account)
+        actionManager.sync()
     }
 
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
@@ -80,6 +76,24 @@ extension EosKit: IBalanceManagerDelegate {
 
 }
 
+extension EosKit: IActionManagerDelegate {
+
+    func didSync(actions: [Action]) {
+        let tokensMap = Dictionary(grouping: actions, by: { $0.account })
+
+        for (token, actions) in tokensMap {
+            let transactions = actions.compactMap { Transaction(action: $0) }
+
+            let transactionsMap = Dictionary(grouping: transactions, by: { $0.quantity.symbol })
+
+            for (symbol, transactions) in transactionsMap {
+                asset(token: token, symbol: symbol)?.transactionsSubject.onNext(transactions)
+            }
+        }
+    }
+
+}
+
 extension EosKit {
 
     public static func instance(account: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
@@ -90,12 +104,13 @@ extension EosKit {
 
         let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://eos.greymass.com")!)
 
-        let balanceManager = BalanceManager(storage: storage, rpcProvider: rpcProvider)
-        let actionManager = ActionManager(storage: storage, rpcProvider: rpcProvider)
+        let balanceManager = BalanceManager(account: account, storage: storage, rpcProvider: rpcProvider)
+        let actionManager = ActionManager(account: account, storage: storage, rpcProvider: rpcProvider)
 
-        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, account: account, uniqueId: uniqueId, logger: logger)
+        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, logger: logger)
 
         balanceManager.delegate = eosKit
+        actionManager.delegate = eosKit
 
         return eosKit
     }

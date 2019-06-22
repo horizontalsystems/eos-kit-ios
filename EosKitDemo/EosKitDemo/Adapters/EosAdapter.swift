@@ -52,7 +52,7 @@ extension EosAdapter: IAdapter {
     }
 
     var transactionsObservable: Observable<Void> {
-        return Observable.empty()
+        return asset.transactionsObservable.map { _ in () }
     }
 
     func validate(address: String) throws {

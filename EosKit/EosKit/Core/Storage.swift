@@ -65,6 +65,12 @@ extension Storage: IStorage {
         }
     }
 
+    var lastAction: Action? {
+        return try? dbPool.read { db in
+            try Action.order(Action.Columns.accountActionSequence.desc).fetchOne(db)
+        }
+    }
+
     func save(actions: [Action]) {
         _ = try? dbPool.write { db in
             for action in actions {

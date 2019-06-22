@@ -4,10 +4,12 @@ import EosioSwift
 class BalanceManager {
     weak var delegate: IBalanceManagerDelegate?
 
+    private let account: String
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
 
-    init(storage: IStorage, rpcProvider: EosioRpcProvider) {
+    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider) {
+        self.account = account
         self.storage = storage
         self.rpcProvider = rpcProvider
     }
@@ -16,7 +18,7 @@ class BalanceManager {
         return storage.balance(token: token, symbol: symbol)
     }
 
-    func sync(token: String, account: String) {
+    func sync(token: String) {
         let request = EosioRpcCurrencyBalanceRequest(code: token, account: account, symbol: nil)
 
         rpcProvider.getCurrencyBalance(requestParameters: request) { [weak self] result in
