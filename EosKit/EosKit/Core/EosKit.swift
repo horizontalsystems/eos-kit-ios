@@ -1,5 +1,4 @@
 import RxSwift
-import HSHDWalletKit
 import EosioSwift
 
 public class EosKit {
@@ -13,6 +12,8 @@ public class EosKit {
     public let uniqueId: String
     public let logger: Logger
 
+    private var assets = [Asset]()
+
     init(balanceManager: BalanceManager, actionManager: ActionManager, account: String, uniqueId: String, logger: Logger) {
         self.balanceManager = balanceManager
         self.actionManager = actionManager
@@ -21,38 +22,53 @@ public class EosKit {
         self.logger = logger
     }
 
+    private func asset(token: String, symbol: String) -> Asset? {
+        return assets.first { $0.token == token && $0.symbol == symbol }
+    }
+
 }
 
 // Public API Extension
 
 extension EosKit {
 
-    public func start() {
-        balanceManager.sync(token: "eosio.token", account: account)
-        balanceManager.sync(token: "betdicetoken", account: account)
-        actionManager.sync(account: account)
+    public func register(token: String, symbol: String) {
+        let balance = balanceManager.balance(token: token, symbol: symbol)?.quantity.amount ?? 0
+        assets.append(Asset(token: token, symbol: symbol, balance: balance))
     }
 
-    public func stop() {
+    public func unregister(token: String, symbol: String) {
+        assets.removeAll { $0.token == token && $0.symbol == symbol }
     }
 
     public func refresh() {
+        for asset in assets {
+            asset.syncState = .syncing
+        }
+
+        let tokens = assets.map { $0.token }
+
+        for token in Set(tokens) {
+            balanceManager.sync(token: token, account: account)
+        }
+
+        actionManager.sync(account: account)
     }
 
     public func balance(token: String, symbol: String) -> Decimal? {
-        return balanceManager.balance(token: token, symbol: symbol)?.quantity.amount
+        return asset(token: token, symbol: symbol)?.balance
     }
 
-    public var balanceObservable: Observable<Decimal> {
-        return balanceSubject.asObservable()
+    public func balanceObservable(token: String, symbol: String) -> Observable<Decimal>? {
+        return asset(token: token, symbol: symbol)?.balanceSubject.asObservable()
     }
 
-    public var syncState: SyncState {
-        return .notSynced
+    public func syncState(token: String, symbol: String) -> SyncState? {
+        return asset(token: token, symbol: symbol)?.syncState
     }
 
-    public var syncStateObservable: Observable<SyncState> {
-        return syncStateSubject.asObservable()
+    public func syncStateObservable(token: String, symbol: String) -> Observable<SyncState>? {
+        return asset(token: token, symbol: symbol)?.syncStateSubject.asObservable()
     }
 
     public func transactionsSingle(token: String, symbol: String, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
@@ -61,11 +77,26 @@ extension EosKit {
 
 }
 
+extension EosKit: IBalanceManagerDelegate {
+
+    func didSync(balance: Balance) {
+        if let asset = asset(token: balance.token, symbol: balance.quantity.symbol) {
+            asset.balance = balance.quantity.amount
+            asset.syncState = .synced
+        }
+    }
+
+    func didFailToSync(token: String) {
+        for asset in assets.filter({ $0.token == token }) {
+            asset.syncState = .notSynced
+        }
+    }
+
+}
+
 extension EosKit {
 
-    public static func instance(networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
-        let account = "esseexchange"
-
+    public static func instance(account: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
@@ -78,16 +109,9 @@ extension EosKit {
 
         let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, account: account, uniqueId: uniqueId, logger: logger)
 
+        balanceManager.delegate = eosKit
+
         return eosKit
-    }
-
-    public static func instance(words: [String], networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
-//        let coinType: UInt32 = networkType == .mainNet ? 60 : 1
-//
-//        let hdWallet = HDWallet(seed: Mnemonic.seed(mnemonic: words), coinType: coinType, xPrivKey: 0, xPubKey: 0)
-//        let privateKey = try hdWallet.privateKey(account: 0, index: 0, chain: .external).raw
-
-        return try instance(networkType: networkType, walletId: walletId, minLogLevel: minLogLevel)
     }
 
     public static func clear() throws {
@@ -116,18 +140,10 @@ extension EosKit {
 
 extension EosKit {
 
-    public enum SyncState: Equatable {
+    public enum SyncState {
         case synced
-        case syncing(progress: Double?)
+        case syncing
         case notSynced
-
-        public static func ==(lhs: EosKit.SyncState, rhs: EosKit.SyncState) -> Bool {
-            switch (lhs, rhs) {
-            case (.synced, .synced), (.notSynced, .notSynced): return true
-            case (.syncing(let lhsProgress), .syncing(let rhsProgress)): return lhsProgress == rhsProgress
-            default: return false
-            }
-        }
     }
 
     public enum NetworkType {

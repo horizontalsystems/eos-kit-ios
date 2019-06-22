@@ -11,12 +11,7 @@ class BalanceCell: UITableViewCell {
 
         switch adapter.syncState {
         case .synced: syncStateString = "Synced!"
-        case .syncing(let progress):
-            if let progress = progress {
-                syncStateString = "Syncing \(Int(progress * 100)) %"
-            } else {
-                syncStateString = "Syncing"
-            }
+        case .syncing: syncStateString = "Syncing"
         case .notSynced: syncStateString = "Not Synced"
         }
 

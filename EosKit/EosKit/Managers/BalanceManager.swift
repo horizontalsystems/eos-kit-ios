@@ -2,6 +2,8 @@ import RxSwift
 import EosioSwift
 
 class BalanceManager {
+    weak var delegate: IBalanceManagerDelegate?
+
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
 
@@ -22,9 +24,9 @@ class BalanceManager {
             case .success(let response):
                 self?.handle(response: response, token: token)
             case .failure(let error):
-                print("BALANCE REFRESH FAILURE")
-                print(error)
-                print(error.reason)
+                print("BalanceManager sync failure: \(error.reason)")
+
+                self?.delegate?.didFailToSync(token: token)
             }
         }
     }
@@ -41,6 +43,10 @@ class BalanceManager {
         }
 
         storage.save(balances: balances)
+
+        for balance in balances {
+            delegate?.didSync(balance: balance)
+        }
     }
 
 }

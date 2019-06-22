@@ -13,3 +13,8 @@ protocol IReachabilityManager {
     var isReachable: Bool { get }
     var reachabilitySignal: Signal { get }
 }
+
+protocol IBalanceManagerDelegate: AnyObject {
+    func didSync(balance: Balance)
+    func didFailToSync(token: String)
+}

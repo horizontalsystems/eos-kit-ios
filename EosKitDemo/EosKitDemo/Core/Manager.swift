@@ -35,7 +35,7 @@ class Manager {
         let configuration = Configuration.shared
 
         let eosKit = try! EosKit.instance(
-                words: words,
+                account: "esseexchange",
                 networkType: configuration.networkType,
                 minLogLevel: configuration.minLogLevel
         )
@@ -47,7 +47,7 @@ class Manager {
 
         self.eosKit = eosKit
 
-        eosKit.start()
+        eosKit.refresh()
     }
 
     private var savedWords: [String]? {

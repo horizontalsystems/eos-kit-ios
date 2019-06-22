@@ -10,6 +10,8 @@ class EosAdapter {
         self.eosKit = eosKit
         self.token = token
         self.symbol = symbol
+
+        eosKit.register(token: token, symbol: symbol)
     }
 
 }
@@ -29,7 +31,7 @@ extension EosAdapter: IAdapter {
     }
 
     var syncState: EosKit.SyncState {
-        return eosKit.syncState
+        return eosKit.syncState(token: token, symbol: symbol) ?? .notSynced
     }
 
     var balance: Decimal {
@@ -45,11 +47,11 @@ extension EosAdapter: IAdapter {
     }
 
     var syncStateObservable: Observable<Void> {
-        return eosKit.syncStateObservable.map { _ in () }
+        return eosKit.syncStateObservable(token: token, symbol: symbol)?.map { _ in () } ?? Observable.empty()
     }
 
     var balanceObservable: Observable<Void> {
-        return eosKit.balanceObservable.map { _ in () }
+        return eosKit.balanceObservable(token: token, symbol: symbol)?.map { _ in () } ?? Observable.empty()
     }
 
     var transactionsObservable: Observable<Void> {
