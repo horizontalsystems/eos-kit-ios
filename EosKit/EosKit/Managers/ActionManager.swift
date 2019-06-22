@@ -14,11 +14,8 @@ class ActionManager {
         self.rpcProvider = rpcProvider
     }
 
-    func transactionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Transaction]> {
+    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
         return storage.actionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
-                .map {
-                    $0.compactMap { Transaction(action: $0) }
-                }
     }
 
     func sync() {

@@ -18,6 +18,7 @@
 		11B35A472C4A5229028432E8 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B357967B62A00F4AAFDF01 /* Quantity.swift */; };
 		11B35B9EBF84FE6E7C921582 /* BalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3589B3BA1D4AC1187569B /* BalanceManager.swift */; };
 		11B35BCD9A16AEBDDCA1982A /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35FEC39893D5963D865B6 /* Storage.swift */; };
+		11B35D7E857ECC56DED8DE65 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B358212B25804FB90821D4 /* TransactionManager.swift */; };
 		11B35EAFCAC2D9BD68084378 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B350A2D8FE59A410FF763C /* Transaction.swift */; };
 		2A32867AB048F30B29C71647 /* Pods_EosKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD845577B4E49A385855E7D6 /* Pods_EosKit.framework */; };
 		2FA5DB25840B287D4DE5CEDE /* EosKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D197843DCF8B688B94E0 /* EosKit.swift */; };
@@ -45,6 +46,7 @@
 		11B355DE59E991662600BAE4 /* Balance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balance.swift; sourceTree = "<group>"; };
 		11B357626B809CC6A964D5B1 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		11B357967B62A00F4AAFDF01 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
+		11B358212B25804FB90821D4 /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
 		11B35893177645F06E2AE8FB /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		11B3589B3BA1D4AC1187569B /* BalanceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceManager.swift; sourceTree = "<group>"; };
 		11B359F34D40C2E21B4CD620 /* GeneratedMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedMocks.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				11B35893177645F06E2AE8FB /* NetworkManager.swift */,
 				11B3589B3BA1D4AC1187569B /* BalanceManager.swift */,
 				11B35A79C9C6DDA3F51C3DB5 /* ActionManager.swift */,
+				11B358212B25804FB90821D4 /* TransactionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				11B3538D482728C80CD65737 /* Action.swift in Sources */,
 				11B35A472C4A5229028432E8 /* Quantity.swift in Sources */,
 				11B358396611AA2DF8FE1D4F /* Asset.swift in Sources */,
+				11B35D7E857ECC56DED8DE65 /* TransactionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +601,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = EosKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -627,7 +631,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EosKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

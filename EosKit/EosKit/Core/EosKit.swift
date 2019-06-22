@@ -1,5 +1,7 @@
 import RxSwift
 import EosioSwift
+import EosioSwiftAbieosSerializationProvider
+import EosioSwiftSoftkeySignatureProvider
 
 public class EosKit {
     private let balanceSubject = PublishSubject<Decimal>()
@@ -7,14 +9,16 @@ public class EosKit {
 
     private let balanceManager: BalanceManager
     private let actionManager: ActionManager
+    private let transactionManager: TransactionManager
 
     private let logger: Logger
 
     private var assets = [Asset]()
 
-    init(balanceManager: BalanceManager, actionManager: ActionManager, logger: Logger) {
+    init(balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, logger: Logger) {
         self.balanceManager = balanceManager
         self.actionManager = actionManager
+        self.transactionManager = transactionManager
         self.logger = logger
     }
 
@@ -54,7 +58,13 @@ extension EosKit {
     }
 
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
-        return actionManager.transactionsSingle(token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
+        return actionManager.actionsSingle(token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
+                .map { $0.compactMap { Transaction(action: $0) } }
+    }
+
+    public func sendSingle(asset: Asset, to: String, amount: Decimal, memo: String) -> Single<String?> {
+        let quantity = Quantity(amount: amount, symbol: asset.symbol)
+        return transactionManager.sendSingle(token: asset.token, to: to, quantity: quantity, memo: memo)
     }
 
 }
@@ -96,7 +106,7 @@ extension EosKit: IActionManagerDelegate {
 
 extension EosKit {
 
-    public static func instance(account: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
+    public static func instance(account: String, privateKey: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
@@ -107,7 +117,13 @@ extension EosKit {
         let balanceManager = BalanceManager(account: account, storage: storage, rpcProvider: rpcProvider)
         let actionManager = ActionManager(account: account, storage: storage, rpcProvider: rpcProvider)
 
-        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, logger: logger)
+        let serializationProvider = EosioAbieosSerializationProvider()
+        let signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: [privateKey])
+        let transactionFactory = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
+
+        let transactionManager = TransactionManager(account: account, storage: storage, transactionFactory: transactionFactory)
+
+        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, logger: logger)
 
         balanceManager.delegate = eosKit
         actionManager.delegate = eosKit

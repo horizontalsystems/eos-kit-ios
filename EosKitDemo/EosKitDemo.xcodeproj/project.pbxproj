@@ -11,7 +11,6 @@
 		11B350DE96ECE1F58F02D8AA /* WordsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B35E53E574BA02E7E80A5F /* WordsController.xib */; };
 		11B353D103BBB08C466FD639 /* ReceiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3553E60EA90E64EE2C747 /* ReceiveController.swift */; };
 		11B3542ACE791123A3F1A5AF /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B356F556750208E0EB231E /* Manager.swift */; };
-		11B354B1D94F3D65B56F2D5C /* IAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3527FFC47FA9129697381 /* IAdapter.swift */; };
 		11B3550F971365331ABDCF7D /* EosAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35E3DF616DA9B67C058D3 /* EosAdapter.swift */; };
 		11B355BEC887FD6B4FE563B5 /* WordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B35C8CE1B31790C7BACF0B /* WordsController.swift */; };
 		11B355CE1B19409595DDB55B /* ReceiveController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B354EDEC2F9FDA1699B376 /* ReceiveController.xib */; };
@@ -49,7 +48,6 @@
 		11B350091370BE84672B3694 /* TransactionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		11B3510CCAE0A2454000D4F1 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		11B351A4E88DAB5E6BF84485 /* SendController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendController.xib; sourceTree = "<group>"; };
-		11B3527FFC47FA9129697381 /* IAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAdapter.swift; sourceTree = "<group>"; };
 		11B354EDEC2F9FDA1699B376 /* ReceiveController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceiveController.xib; sourceTree = "<group>"; };
 		11B3553E60EA90E64EE2C747 /* ReceiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiveController.swift; sourceTree = "<group>"; };
 		11B355F203687C3A51B9F9A3 /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 		11B357A8E05F9B38634D02C9 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				11B3527FFC47FA9129697381 /* IAdapter.swift */,
 				11B35E3DF616DA9B67C058D3 /* EosAdapter.swift */,
 			);
 			path = Adapters;
@@ -317,7 +314,6 @@
 				11B359C7B7CAD9961BF401CE /* Signal.swift in Sources */,
 				11B3550F971365331ABDCF7D /* EosAdapter.swift in Sources */,
 				D3927B93226DA95A005094C4 /* BalanceCell.swift in Sources */,
-				11B354B1D94F3D65B56F2D5C /* IAdapter.swift in Sources */,
 				11B35634EDC9CD1B0CFA5478 /* Configuration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

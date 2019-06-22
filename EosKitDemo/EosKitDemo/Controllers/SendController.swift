@@ -8,13 +8,11 @@ class SendController: UIViewController {
     @IBOutlet weak var amountTextField: UITextField?
     @IBOutlet weak var coinLabel: UILabel?
 
-    private var adapters = [IAdapter]()
+    private let adapters = Manager.shared.eosAdapters
     private let segmentedControl = UISegmentedControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        adapters = Manager.shared.eosAdapters
 
         for (index, adapter) in adapters.enumerated() {
             segmentedControl.insertSegment(withTitle: adapter.coin, at: index, animated: false)
@@ -55,7 +53,7 @@ class SendController: UIViewController {
             return
         }
 
-        currentAdapter.sendSingle(to: address, amount: amount)
+        currentAdapter.sendSingle(to: address, amount: amount, memo: "")
                 .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [weak self] _ in
@@ -81,7 +79,7 @@ class SendController: UIViewController {
         present(alert, animated: true)
     }
 
-    private var currentAdapter: IAdapter {
+    private var currentAdapter: EosAdapter {
         return adapters[segmentedControl.selectedSegmentIndex]
     }
 

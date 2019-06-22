@@ -6,7 +6,7 @@ class BalanceCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var valueLabel: UILabel?
 
-    func bind(adapter: IAdapter) {
+    func bind(adapter: EosAdapter) {
         let syncStateString: String
 
         switch adapter.syncState {

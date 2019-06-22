@@ -5,7 +5,7 @@ import EosKit
 class TransactionsController: UITableViewController {
     private let disposeBag = DisposeBag()
 
-    private var adapters = [IAdapter]()
+    private let adapters = Manager.shared.eosAdapters
     private var transactions = [Transaction]()
 
     private let segmentedControl = UISegmentedControl()
@@ -19,8 +19,6 @@ class TransactionsController: UITableViewController {
         tableView.register(UINib(nibName: String(describing: TransactionCell.self), bundle: Bundle(for: TransactionCell.self)), forCellReuseIdentifier: String(describing: TransactionCell.self))
         tableView.tableFooterView = UIView()
         tableView.separatorInset = .zero
-
-        adapters = Manager.shared.eosAdapters
 
         for (index, adapter) in adapters.enumerated() {
             segmentedControl.insertSegment(withTitle: adapter.coin, at: index, animated: false)
@@ -88,7 +86,7 @@ class TransactionsController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    private var currentAdapter: IAdapter {
+    private var currentAdapter: EosAdapter {
         return adapters[segmentedControl.selectedSegmentIndex]
     }
 

@@ -2,9 +2,9 @@ import UIKit
 import RxSwift
 
 class BalanceController: UITableViewController {
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-    var adapters = [IAdapter]()
+    private let adapters = Manager.shared.eosAdapters
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,8 +15,6 @@ class BalanceController: UITableViewController {
         tableView.register(UINib(nibName: String(describing: BalanceCell.self), bundle: Bundle(for: BalanceCell.self)), forCellReuseIdentifier: String(describing: BalanceCell.self))
         tableView.tableFooterView = UIView()
         tableView.separatorInset = .zero
-
-        adapters = Manager.shared.eosAdapters
 
         for (index, adapter) in adapters.enumerated() {
             Observable.merge([adapter.lastBlockHeightObservable, adapter.syncStateObservable, adapter.balanceObservable])

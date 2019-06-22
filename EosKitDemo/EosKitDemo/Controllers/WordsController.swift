@@ -12,8 +12,6 @@ class WordsController: UIViewController {
 
         textView?.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         textView?.layer.cornerRadius = 8
-
-        textView?.text = Configuration.shared.defaultsWords
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -35,7 +35,8 @@ class Manager {
         let configuration = Configuration.shared
 
         let eosKit = try! EosKit.instance(
-                account: "esseexchange",
+                account: configuration.account,
+                privateKey: configuration.privateKey,
                 networkType: configuration.networkType,
                 minLogLevel: configuration.minLogLevel
         )

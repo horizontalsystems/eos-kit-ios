@@ -13,7 +13,7 @@ class EosAdapter {
 
 }
 
-extension EosAdapter: IAdapter {
+extension EosAdapter {
 
     var name: String {
         return "\(asset.symbol) - \(asset.token)"
@@ -59,8 +59,8 @@ extension EosAdapter: IAdapter {
 
     }
 
-    func sendSingle(to: String, amount: Decimal) -> Single<Void> {
-        return Single.just(())
+    func sendSingle(to: String, amount: Decimal, memo: String) -> Single<String?> {
+        return eosKit.sendSingle(asset: asset, to: to, amount: amount, memo: memo)
     }
 
     func transactionsSingle(fromActionSequence: Int?, limit: Int?) -> Single<[Transaction]> {
