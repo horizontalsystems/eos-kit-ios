@@ -4,26 +4,43 @@ import EosioSwiftAbieosSerializationProvider
 import EosioSwiftSoftkeySignatureProvider
 
 public class EosKit {
+    private let disposeBag = DisposeBag()
+
     private let balanceSubject = PublishSubject<Decimal>()
     private let syncStateSubject = PublishSubject<SyncState>()
 
     private let balanceManager: BalanceManager
     private let actionManager: ActionManager
     private let transactionManager: TransactionManager
+    private let reachabilityManager: ReachabilityManager
 
     private let logger: Logger
 
     private var assets = [Asset]()
 
-    init(balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, logger: Logger) {
+    init(balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, logger: Logger) {
         self.balanceManager = balanceManager
         self.actionManager = actionManager
         self.transactionManager = transactionManager
+        self.reachabilityManager = reachabilityManager
         self.logger = logger
+
+        reachabilityManager.reachabilitySignal
+                .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+                .subscribe(onNext: { [weak self] in
+                    self?.refresh()
+                })
+                .disposed(by: disposeBag)
     }
 
     private func asset(token: String, symbol: String) -> Asset? {
         return assets.first { $0.token == token && $0.symbol == symbol }
+    }
+
+    private func setAllAssets(syncState: SyncState) {
+        for asset in assets {
+            asset.syncState = syncState
+        }
     }
 
 }
@@ -44,9 +61,12 @@ extension EosKit {
     }
 
     public func refresh() {
-        for asset in assets {
-            asset.syncState = .syncing
+        guard reachabilityManager.isReachable else {
+            setAllAssets(syncState: .notSynced)
+            return
         }
+
+        setAllAssets(syncState: .syncing)
 
         let tokens = assets.map { $0.token }
 
@@ -127,8 +147,9 @@ extension EosKit {
         let transactionFactory = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
 
         let transactionManager = TransactionManager(account: account, storage: storage, transactionFactory: transactionFactory, logger: logger)
+        let reachabilityManager = ReachabilityManager()
 
-        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, logger: logger)
+        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, reachabilityManager: reachabilityManager, logger: logger)
 
         balanceManager.delegate = eosKit
         actionManager.delegate = eosKit

@@ -29,6 +29,3 @@ class ReachabilityManager {
     }
 
 }
-
-extension ReachabilityManager: IReachabilityManager {
-}
