@@ -17,7 +17,7 @@ class ActionManager {
     }
 
     func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
-        return storage.actionsSingle(token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+        return storage.actionsSingle(receiver: account, token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
     }
 
     func sync() {
@@ -70,6 +70,7 @@ class ActionManager {
                 transactionId: actionResponse.actionTrace.transactionId,
                 account: actionResponse.actionTrace.action.account,
                 name: actionResponse.actionTrace.action.name,
+                receiver: actionResponse.actionTrace.receipt.receiver,
                 quantity: quantity,
                 from: from,
                 to: to,

@@ -33,6 +33,7 @@ class Storage {
                 t.column(Action.Columns.transactionId.name, .text).notNull()
                 t.column(Action.Columns.account.name, .text).notNull()
                 t.column(Action.Columns.name.name, .text).notNull()
+                t.column(Action.Columns.receiver.name, .text).notNull()
 
                 t.column(Action.Columns.amount.name, .text)
                 t.column(Action.Columns.symbol.name, .text)
@@ -79,10 +80,10 @@ extension Storage: IStorage {
         }
     }
 
-    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
+    func actionsSingle(receiver: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
         return Single.create { [weak self] observer in
             try? self?.dbPool.read { db in
-                var request = Action.filter(Action.Columns.account == token && Action.Columns.name == "transfer" && Action.Columns.symbol == symbol)
+                var request = Action.filter(Action.Columns.receiver == receiver && Action.Columns.account == token && Action.Columns.name == "transfer" && Action.Columns.symbol == symbol)
 
                 if let fromActionSequence = fromActionSequence {
                     request = request.filter(Action.Columns.accountActionSequence < fromActionSequence)

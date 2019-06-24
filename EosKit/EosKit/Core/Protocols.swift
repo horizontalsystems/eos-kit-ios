@@ -7,7 +7,7 @@ protocol IStorage {
     var lastAction: Action? { get }
     func save(actions: [Action])
 
-    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]>
+    func actionsSingle(receiver: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]>
 }
 
 protocol IReachabilityManager {

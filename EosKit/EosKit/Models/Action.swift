@@ -7,19 +7,21 @@ public class Action: Record {
     public let transactionId: String
     public let account: String
     public let name: String
+    public let receiver: String
 
     public var quantity: Quantity?
     public var from: String?
     public var to: String?
     public var memo: String?
 
-    init(accountActionSequence: Int, blockNumber: Int, blockTime: String, transactionId: String, account: String, name: String, quantity: Quantity?, from: String?, to: String?, memo: String?) {
+    init(accountActionSequence: Int, blockNumber: Int, blockTime: String, transactionId: String, account: String, name: String, receiver: String, quantity: Quantity?, from: String?, to: String?, memo: String?) {
         self.accountActionSequence = accountActionSequence
         self.blockNumber = blockNumber
         self.blockTime = blockTime
         self.transactionId = transactionId
         self.account = account
         self.name = name
+        self.receiver = receiver
 
         self.quantity = quantity
         self.from = from
@@ -40,6 +42,7 @@ public class Action: Record {
         case transactionId
         case account
         case name
+        case receiver
 
         case amount
         case symbol
@@ -55,6 +58,7 @@ public class Action: Record {
         transactionId = row[Columns.transactionId]
         account = row[Columns.account]
         name = row[Columns.name]
+        receiver = row[Columns.receiver]
 
         let amount: Decimal? = row[Columns.amount]
         let symbol: String? = row[Columns.symbol]
@@ -77,6 +81,7 @@ public class Action: Record {
         container[Columns.transactionId] = transactionId
         container[Columns.account] = account
         container[Columns.name] = name
+        container[Columns.receiver] = receiver
 
         container[Columns.amount] = quantity?.amount
         container[Columns.symbol] = quantity?.symbol
