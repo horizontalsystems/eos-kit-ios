@@ -65,6 +65,11 @@ extension EosKit {
     public func sendSingle(asset: Asset, to: String, amount: Decimal, memo: String) -> Single<String?> {
         let quantity = Quantity(amount: amount, symbol: asset.symbol)
         return transactionManager.sendSingle(token: asset.token, to: to, quantity: quantity, memo: memo)
+                .do(onSuccess: { [weak self] _ in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self?.refresh()
+                    }
+                })
     }
 
 }
