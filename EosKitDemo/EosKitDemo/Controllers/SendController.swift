@@ -6,6 +6,7 @@ class SendController: UIViewController {
 
     @IBOutlet weak var addressTextField: UITextField?
     @IBOutlet weak var amountTextField: UITextField?
+    @IBOutlet weak var memoTextField: UITextField?
     @IBOutlet weak var coinLabel: UILabel?
 
     private let adapters = Manager.shared.eosAdapters
@@ -53,12 +54,15 @@ class SendController: UIViewController {
             return
         }
 
-        currentAdapter.sendSingle(to: address, amount: amount, memo: "")
+        let memo = memoTextField?.text ?? ""
+
+        currentAdapter.sendSingle(to: address, amount: amount, memo: memo)
                 .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
                 .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [weak self] _ in
                     self?.addressTextField?.text = ""
                     self?.amountTextField?.text = ""
+                    self?.memoTextField?.text = ""
 
                     self?.showSuccess(address: address, amount: amount)
                 }, onError: { [weak self] error in
