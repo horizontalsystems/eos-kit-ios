@@ -2,23 +2,23 @@ import UIKit
 
 class ReceiveController: UIViewController {
 
-    @IBOutlet weak var addressLabel: UILabel?
+    @IBOutlet weak var accountLabel: UILabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Receive"
 
-        addressLabel?.layer.cornerRadius = 8
-        addressLabel?.clipsToBounds = true
+        accountLabel?.layer.cornerRadius = 8
+        accountLabel?.clipsToBounds = true
 
-        addressLabel?.text = "  \(Manager.shared.eosAdapters[0].receiveAddress)  "
+        accountLabel?.text = "  \(Manager.shared.account!)  "
     }
 
     @IBAction func copyToClipboard() {
-        UIPasteboard.general.setValue(Manager.shared.eosAdapters[0].receiveAddress, forPasteboardType: "public.plain-text")
+        UIPasteboard.general.setValue(Manager.shared.account!, forPasteboardType: "public.plain-text")
 
-        let alert = UIAlertController(title: "Success", message: "Address copied", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Success", message: "Account copied", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
