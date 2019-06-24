@@ -18,8 +18,11 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = '11.0'
   spec.swift_version = '5'
 
-  spec.dependency 'HSHDWalletKit', '~> 1.1'
   spec.dependency 'RxSwift', '~> 5.0'
   spec.dependency 'GRDB.swift', '~> 4.0'
   spec.dependency 'Alamofire', '~> 4.0'
+
+  spec.dependency 'EosioSwift', '~> 0.1.1'
+  spec.dependency 'EosioSwiftAbieosSerializationProvider', '~> 0.1.1'
+  spec.dependency 'EosioSwiftSoftkeySignatureProvider', '~> 0.1.1'
 end
