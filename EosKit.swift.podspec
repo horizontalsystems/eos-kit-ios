@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.source = { git: 'https://github.com/horizontalsystems/eos-kit-ios.git', tag: "#{spec.version}" }
   spec.source_files = 'EosKit/EosKit/**/*.{h,m,swift}'
-  spec.ios.deployment_target = '11.0'
+  spec.ios.deployment_target = '12.0'
   spec.swift_version = '5'
 
   spec.dependency 'RxSwift', '~> 5.0'
