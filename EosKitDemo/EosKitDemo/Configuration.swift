@@ -6,6 +6,6 @@ class Configuration {
     let networkType: EosKit.NetworkType = .mainNet
     let minLogLevel: Logger.Level = .error
 
-    let account = "esseexchange"
-    let privateKey = ""
+    let defaultAccount = ""
+    let defaultActivePrivateKey = ""
 }

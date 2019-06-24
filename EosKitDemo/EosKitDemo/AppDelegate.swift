@@ -6,7 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let controller = Manager.shared.eosKit == nil ? UINavigationController(rootViewController: WordsController()) : MainController()
+        let controller = Manager.shared.eosKit == nil ? UINavigationController(rootViewController: LoginController()) : MainController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

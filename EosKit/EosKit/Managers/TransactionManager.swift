@@ -5,27 +5,33 @@ class TransactionManager {
     private let account: String
     private let storage: IStorage
     private let transactionFactory: EosioTransactionFactory
+    private let logger: Logger
 
-    init(account: String, storage: IStorage, transactionFactory: EosioTransactionFactory) {
+    init(account: String, storage: IStorage, transactionFactory: EosioTransactionFactory, logger: Logger) {
         self.account = account
         self.storage = storage
         self.transactionFactory = transactionFactory
+        self.logger = logger
     }
 
     func sendSingle(token: String, to: String, quantity: Quantity, memo: String) -> Single<String?> {
         return Single.create { [unowned self] observer in
+            self.logger.verbose("Sending transaction: \(token); \(to); \(quantity); \(memo)")
+
             do {
                 let transaction = try self.transaction(token: token, to: to, quantity: quantity, memo: memo)
 
                 transaction.signAndBroadcast { result in
-                    let transactionJson = try? transaction.toJson(prettyPrinted: true)
-                    print("Outgoing Transaction: \(transactionJson ?? "nil")")
+//                    let transactionJson = try? transaction.toJson(prettyPrinted: true)
+//                    print("Outgoing Transaction: \(transactionJson ?? "nil")")
 
                     switch result {
                     case .success:
+                        self.logger.debug("TransactionManager send success: \(transaction.transactionId ?? "no transaction id")")
+
                         observer(.success(transaction.transactionId))
                     case .failure (let error):
-                        print("TransactionManager send failure: \(error) \(error.reason)")
+                        self.logger.error("TransactionManager send failure: \(error) \(error.reason)")
 
                         observer(.error(error))
                     }

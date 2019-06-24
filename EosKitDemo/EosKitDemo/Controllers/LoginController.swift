@@ -1,17 +1,17 @@
 import UIKit
-import HSHDWalletKit
 
-class WordsController: UIViewController {
+class LoginController: UIViewController {
 
-    @IBOutlet weak var textView: UITextView?
+    @IBOutlet weak var accountTextField: UITextField?
+    @IBOutlet weak var activePrivateKeyTextField: UITextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "EosKit Demo"
 
-        textView?.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textView?.layer.cornerRadius = 8
+        accountTextField?.text = Configuration.shared.defaultAccount
+        activePrivateKeyTextField?.text = Configuration.shared.defaultActivePrivateKey
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -20,19 +20,12 @@ class WordsController: UIViewController {
         view.endEditing(true)
     }
 
-    @IBAction func generateNewWords() {
-        if let generatedWords = try? Mnemonic.generate() {
-            textView?.text = generatedWords.joined(separator: " ")
-        }
-    }
-
     @IBAction func login() {
-        let words = textView?.text.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty } ?? []
+        let account = accountTextField?.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let activePrivateKey = activePrivateKeyTextField?.text?.trimmingCharacters(in: .whitespaces) ?? ""
 
         do {
-            try Mnemonic.validate(words: words)
-
-            Manager.shared.login(words: words)
+            try Manager.shared.login(account: account, activePrivateKey: activePrivateKey)
 
             if let window = UIApplication.shared.keyWindow {
                 UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {

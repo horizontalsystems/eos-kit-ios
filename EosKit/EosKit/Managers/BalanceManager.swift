@@ -7,11 +7,13 @@ class BalanceManager {
     private let account: String
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
+    private let logger: Logger
 
-    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider) {
+    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider, logger: Logger) {
         self.account = account
         self.storage = storage
         self.rpcProvider = rpcProvider
+        self.logger = logger
     }
 
     func balance(token: String, symbol: String) -> Balance? {
@@ -19,6 +21,8 @@ class BalanceManager {
     }
 
     func sync(token: String) {
+        logger.verbose("Syncing token: \(token)")
+
         let request = EosioRpcCurrencyBalanceRequest(code: token, account: account, symbol: nil)
 
         rpcProvider.getCurrencyBalance(requestParameters: request) { [weak self] result in
@@ -26,7 +30,7 @@ class BalanceManager {
             case .success(let response):
                 self?.handle(response: response, token: token)
             case .failure(let error):
-                print("BalanceManager sync failure: \(error.reason)")
+                self?.logger.error("BalanceManager sync failure: \(error.reason)")
 
                 self?.delegate?.didFailToSync(token: token)
             }
@@ -34,7 +38,7 @@ class BalanceManager {
     }
 
     private func handle(response: EosioRpcCurrencyBalanceResponse, token: String) {
-        print("Balances: \(response.currencyBalance)")
+        logger.debug("Balances received for \(token): \(response.currencyBalance)")
 
         let balances = response.currencyBalance.compactMap { string -> Balance? in
             guard let quantity = Quantity(string: string) else {

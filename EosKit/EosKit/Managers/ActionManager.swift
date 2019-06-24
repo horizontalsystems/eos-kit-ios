@@ -7,11 +7,13 @@ class ActionManager {
     private let account: String
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
+    private let logger: Logger
 
-    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider) {
+    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider, logger: Logger) {
         self.account = account
         self.storage = storage
         self.rpcProvider = rpcProvider
+        self.logger = logger
     }
 
     func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
@@ -21,6 +23,8 @@ class ActionManager {
     func sync() {
         let lastSequence = storage.lastAction?.accountActionSequence ?? -1
 
+        logger.verbose("Syncing actions starting from \(lastSequence)")
+
         let request = EosioRpcHistoryActionsRequest(position: Int32(lastSequence + 1), offset: 1000, accountName: account)
 
         rpcProvider.getActions(requestParameters: request) { [weak self] result in
@@ -28,13 +32,13 @@ class ActionManager {
             case .success(let response):
                 self?.handle(response: response)
             case .failure(let error):
-                print("ActionManager sync failure: \(error.reason)")
+                self?.logger.error("ActionManager sync failure: \(error.reason)")
             }
         }
     }
 
     private func handle(response: EosioRpcActionsResponse) {
-        print("Actions: \(response.actions.count)")
+        logger.debug("Actions received: \(response.actions.count)")
 
         let actions = response.actions.map { action(from: $0) }
 

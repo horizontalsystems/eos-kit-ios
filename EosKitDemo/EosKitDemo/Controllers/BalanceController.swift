@@ -32,7 +32,7 @@ class BalanceController: UITableViewController {
 
         if let window = UIApplication.shared.keyWindow {
             UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                window.rootViewController = UINavigationController(rootViewController: WordsController())
+                window.rootViewController = UINavigationController(rootViewController: LoginController())
             })
         }
     }

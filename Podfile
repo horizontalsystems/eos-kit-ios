@@ -9,8 +9,6 @@ project 'EosKit/EosKit'
 project 'EosKitDemo/EosKitDemo'
 
 def common_pods
-  pod 'HSHDWalletKit', '~> 1.1'
-
   pod 'RxSwift', '~> 5.0'
   pod 'GRDB.swift', '~> 4.0'
   pod 'Alamofire', '~> 4.0'

@@ -106,7 +106,7 @@ extension EosKit: IActionManagerDelegate {
 
 extension EosKit {
 
-    public static func instance(account: String, privateKey: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
+    public static func instance(account: String, activePrivateKey: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
@@ -114,14 +114,14 @@ extension EosKit {
 
         let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://eos.greymass.com")!)
 
-        let balanceManager = BalanceManager(account: account, storage: storage, rpcProvider: rpcProvider)
-        let actionManager = ActionManager(account: account, storage: storage, rpcProvider: rpcProvider)
+        let balanceManager = BalanceManager(account: account, storage: storage, rpcProvider: rpcProvider, logger: logger)
+        let actionManager = ActionManager(account: account, storage: storage, rpcProvider: rpcProvider, logger: logger)
 
         let serializationProvider = EosioAbieosSerializationProvider()
-        let signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: [privateKey])
+        let signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: [activePrivateKey])
         let transactionFactory = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
 
-        let transactionManager = TransactionManager(account: account, storage: storage, transactionFactory: transactionFactory)
+        let transactionManager = TransactionManager(account: account, storage: storage, transactionFactory: transactionFactory, logger: logger)
 
         let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, logger: logger)
 
