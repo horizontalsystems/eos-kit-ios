@@ -13,7 +13,7 @@ def common_pods
   pod 'GRDB.swift', '~> 4.0'
   pod 'Alamofire', '~> 4.0'
 
-  pod 'EosioSwift', '~> 0.1.1'
+  pod 'EosioSwift', git: 'https://github.com/horizontalsystems/eosio-swift'
   pod 'EosioSwiftAbieosSerializationProvider', '~> 0.1.1'
   pod 'EosioSwiftSoftkeySignatureProvider', '~> 0.1.1'
 end
