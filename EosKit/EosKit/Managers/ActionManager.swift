@@ -48,7 +48,8 @@ class ActionManager {
 
         storage.save(actions: actions)
 
-        delegate?.didSync(actions: actions)
+        let filteredActions = actions.filter { $0.receiver == account && $0.name == "transfer" }
+        delegate?.didSync(actions: filteredActions)
 
         sync()
     }
