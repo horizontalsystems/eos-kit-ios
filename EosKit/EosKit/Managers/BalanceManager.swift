@@ -21,8 +21,6 @@ class BalanceManager {
     }
 
     func sync(token: String) {
-        logger.verbose("Syncing token: \(token)")
-
         let request = EosioRpcCurrencyBalanceRequest(code: token, account: account, symbol: nil)
 
         rpcProvider.getCurrencyBalance(requestParameters: request) { [weak self] result in
@@ -30,7 +28,7 @@ class BalanceManager {
             case .success(let response):
                 self?.handle(response: response, token: token)
             case .failure(let error):
-                self?.logger.error("BalanceManager sync failure: \(error.reason)")
+                self?.logger.error("BalanceManager sync failure for \(token): \(error.reason)")
 
                 self?.delegate?.didFailToSync(token: token)
             }
@@ -50,9 +48,7 @@ class BalanceManager {
 
         storage.save(balances: balances)
 
-        for balance in balances {
-            delegate?.didSync(balance: balance)
-        }
+        delegate?.didSync(token: token, balances: balances)
     }
 
 }

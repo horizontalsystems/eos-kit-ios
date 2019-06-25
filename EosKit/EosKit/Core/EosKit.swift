@@ -6,9 +6,6 @@ import EosioSwiftSoftkeySignatureProvider
 public class EosKit {
     private let disposeBag = DisposeBag()
 
-    private let balanceSubject = PublishSubject<Decimal>()
-    private let syncStateSubject = PublishSubject<SyncState>()
-
     private let balanceManager: BalanceManager
     private let actionManager: ActionManager
     private let transactionManager: TransactionManager
@@ -17,6 +14,7 @@ public class EosKit {
     private let logger: Logger
 
     private var assets = [Asset]()
+    private var syncingAssets = [Asset]()
 
     init(balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, logger: Logger) {
         self.balanceManager = balanceManager
@@ -37,10 +35,40 @@ public class EosKit {
         return assets.first { $0.token == token && $0.symbol == symbol }
     }
 
-    private func setAllAssets(syncState: SyncState) {
-        for asset in assets {
-            asset.syncState = syncState
+    private func sync(asset: Asset) {
+        guard reachabilityManager.isReachable else {
+            asset.syncState = .notSynced
+            return
         }
+
+        guard !syncingAssets.contains(asset) else {
+            logger.verbose("Already syncing: \(asset)")
+            return
+        }
+
+        logger.verbose("Syncing asset: \(asset)")
+
+        asset.syncState = .syncing
+
+        let token = asset.token
+        let alreadySyncingToken = syncingAssets.contains { $0.token == token }
+
+        syncingAssets.append(asset)
+
+        guard !alreadySyncingToken else {
+            logger.verbose("Already syncing token: \(token)")
+            return
+        }
+
+        balanceManager.sync(token: token)
+    }
+
+    private func syncActions() {
+        guard reachabilityManager.isReachable else {
+            return
+        }
+
+        actionManager.sync()
     }
 
 }
@@ -52,7 +80,10 @@ extension EosKit {
     public func register(token: String, symbol: String) -> Asset {
         let balance = balanceManager.balance(token: token, symbol: symbol)?.quantity.amount ?? 0
         let asset = Asset(token: token, symbol: symbol, balance: balance)
+
         assets.append(asset)
+        sync(asset: asset)
+
         return asset
     }
 
@@ -61,20 +92,11 @@ extension EosKit {
     }
 
     public func refresh() {
-        guard reachabilityManager.isReachable else {
-            setAllAssets(syncState: .notSynced)
-            return
+        for asset in assets {
+            sync(asset: asset)
         }
 
-        setAllAssets(syncState: .syncing)
-
-        let tokens = assets.map { $0.token }
-
-        for token in Set(tokens) {
-            balanceManager.sync(token: token)
-        }
-
-        actionManager.sync()
+        syncActions()
     }
 
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
@@ -96,17 +118,27 @@ extension EosKit {
 
 extension EosKit: IBalanceManagerDelegate {
 
-    func didSync(balance: Balance) {
-        if let asset = asset(token: balance.token, symbol: balance.quantity.symbol) {
-            asset.balance = balance.quantity.amount
+    func didSync(token: String, balances: [Balance]) {
+        let matchingAssets = syncingAssets.filter { $0.token == token }
+
+        for asset in matchingAssets {
+            let balance = balances.first(where: { $0.quantity.symbol == asset.symbol })
+
+            asset.balance = balance?.quantity.amount ?? 0
             asset.syncState = .synced
         }
+
+        syncingAssets.removeAll { matchingAssets.contains($0) }
     }
 
     func didFailToSync(token: String) {
-        for asset in assets.filter({ $0.token == token }) {
+        let matchingAssets = syncingAssets.filter { $0.token == token }
+
+        for asset in matchingAssets {
             asset.syncState = .notSynced
         }
+
+        syncingAssets.removeAll { matchingAssets.contains($0) }
     }
 
 }

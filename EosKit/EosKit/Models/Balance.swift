@@ -35,3 +35,11 @@ class Balance: Record {
     }
 
 }
+
+extension Balance: CustomStringConvertible {
+
+    public var description: String {
+        return "BALANCE: [token: \(token); quantity: \(quantity)]"
+    }
+
+}

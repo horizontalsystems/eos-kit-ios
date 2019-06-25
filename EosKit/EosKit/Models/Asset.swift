@@ -47,3 +47,11 @@ extension Asset: Equatable {
     }
 
 }
+
+extension Asset: CustomStringConvertible {
+
+    public var description: String {
+        return "ASSET: [token: \(token); symbol: \(symbol); balance: \(balance); syncState: \(syncState)]"
+    }
+
+}

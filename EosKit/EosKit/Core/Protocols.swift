@@ -16,7 +16,7 @@ protocol IReachabilityManager {
 }
 
 protocol IBalanceManagerDelegate: AnyObject {
-    func didSync(balance: Balance)
+    func didSync(token: String, balances: [Balance])
     func didFailToSync(token: String)
 }
 

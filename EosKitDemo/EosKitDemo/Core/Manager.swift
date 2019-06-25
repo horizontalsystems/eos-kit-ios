@@ -41,15 +41,16 @@ class Manager {
                 minLogLevel: configuration.minLogLevel
         )
 
+        eosKit.refresh()
+
         eosAdapters = [
             EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "EOS"),
+            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "ERM"),
             EosAdapter(eosKit: eosKit, token: "betdicetoken", symbol: "DICE"),
         ]
 
         self.eosKit = eosKit
         self.account = account
-
-        eosKit.refresh()
     }
 
     private var savedAuth: (account: String, activePrivateKey: String)? {
