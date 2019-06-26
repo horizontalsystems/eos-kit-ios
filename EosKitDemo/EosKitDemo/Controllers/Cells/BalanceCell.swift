@@ -19,13 +19,13 @@ class BalanceCell: UITableViewCell {
 
         set(string: """
                     Sync state:
-                    Last block height:
+                    Irreversible block height:
                     Balance:
                     """, alignment: .left, label: titleLabel)
 
         set(string: """
                     \(syncStateString)
-                    \(adapter.lastBlockHeight.map { "# \($0)" } ?? "n/a")
+                    \(adapter.irreversibleBlockHeight.map { "# \($0)" } ?? "n/a")
                     \(adapter.balance) \(adapter.coin)
                     """, alignment: .right, label: valueLabel)
     }

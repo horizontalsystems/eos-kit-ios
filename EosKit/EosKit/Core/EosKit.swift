@@ -13,6 +13,9 @@ public class EosKit {
 
     private let logger: Logger
 
+    public var irreversibleBlockHeight: Int?
+    private let irreversibleBlockHeightSubject = PublishSubject<Int>()
+
     private var assets = [Asset]()
     private var syncingAssets = [Asset]()
 
@@ -22,6 +25,8 @@ public class EosKit {
         self.transactionManager = transactionManager
         self.reachabilityManager = reachabilityManager
         self.logger = logger
+
+        irreversibleBlockHeight = actionManager.irreversibleBlock?.height
 
         reachabilityManager.reachabilitySignal
                 .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
@@ -99,6 +104,10 @@ extension EosKit {
         syncActions()
     }
 
+    public var irreversibleBlockHeightObservable: Observable<Int> {
+        return irreversibleBlockHeightSubject.asObservable()
+    }
+
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
         return actionManager.actionsSingle(token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
                 .map { $0.compactMap { Transaction(action: $0) } }
@@ -144,6 +153,11 @@ extension EosKit: IBalanceManagerDelegate {
 }
 
 extension EosKit: IActionManagerDelegate {
+
+    func didSync(irreversibleBlock: IrreversibleBlock) {
+        irreversibleBlockHeight = irreversibleBlock.height
+        irreversibleBlockHeightSubject.onNext(irreversibleBlock.height)
+    }
 
     func didSync(actions: [Action]) {
         let tokensMap = Dictionary(grouping: actions, by: { $0.account })

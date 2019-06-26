@@ -45,12 +45,33 @@ class Storage {
             }
         }
 
+        migrator.registerMigration("createIrreversibleBlock") { db in
+            try db.create(table: IrreversibleBlock.databaseTableName) { t in
+                t.column(IrreversibleBlock.Columns.primaryKey.name, .text).notNull()
+                t.column(IrreversibleBlock.Columns.height.name, .integer).notNull()
+
+                t.primaryKey([IrreversibleBlock.Columns.primaryKey.name], onConflict: .replace)
+            }
+        }
+
         return migrator
     }
 
 }
 
 extension Storage: IStorage {
+
+    var irreversibleBlock: IrreversibleBlock? {
+        return try? dbPool.read { db in
+            try IrreversibleBlock.fetchOne(db)
+        }
+    }
+
+    func save(irreversibleBlock: IrreversibleBlock) {
+        _ = try? dbPool.write { db in
+            try irreversibleBlock.insert(db)
+        }
+    }
 
     func balance(token: String, symbol: String) -> Balance? {
         return try? dbPool.read { db in

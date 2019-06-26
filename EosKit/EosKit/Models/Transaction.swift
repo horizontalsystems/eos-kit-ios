@@ -1,5 +1,6 @@
 public class Transaction {
     public let id: String
+    public let blockNumber: Int
     public let quantity: Quantity
     public let from: String
     public let to: String
@@ -25,6 +26,7 @@ public class Transaction {
         }
 
         self.id = action.transactionId
+        self.blockNumber = action.blockNumber
         self.quantity = quantity
         self.from = from
         self.to = to

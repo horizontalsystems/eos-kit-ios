@@ -23,11 +23,11 @@ class TransactionsController: UITableViewController {
         for (index, adapter) in adapters.enumerated() {
             segmentedControl.insertSegment(withTitle: adapter.coin, at: index, animated: false)
 
-            adapter.lastBlockHeightObservable
+            adapter.irreversibleBlockHeightObservable
                     .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                     .observeOn(MainScheduler.instance)
                     .subscribe(onNext: { [weak self] in
-                        self?.onLastBlockHeightUpdated(index: index)
+                        self?.onIrreversibleBlockHeightUpdated(index: index)
                     })
                     .disposed(by: disposeBag)
 
@@ -59,7 +59,7 @@ class TransactionsController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 190
+        return 200
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,7 +68,7 @@ class TransactionsController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? TransactionCell {
-            cell.bind(transaction: transactions[indexPath.row], coin: currentAdapter.coin, lastBlockHeight: currentAdapter.lastBlockHeight)
+            cell.bind(transaction: transactions[indexPath.row], coin: currentAdapter.coin, irreversibleBlockHeight: currentAdapter.irreversibleBlockHeight)
         }
 
         if indexPath.row > transactions.count - 3 {
@@ -118,7 +118,7 @@ class TransactionsController: UITableViewController {
         }
     }
 
-    private func onLastBlockHeightUpdated(index: Int) {
+    private func onIrreversibleBlockHeightUpdated(index: Int) {
         if index == segmentedControl.selectedSegmentIndex {
             tableView.reloadData()
         }

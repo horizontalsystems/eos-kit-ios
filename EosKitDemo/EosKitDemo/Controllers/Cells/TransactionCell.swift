@@ -12,9 +12,21 @@ class TransactionCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var valueLabel: UILabel?
 
-    func bind(transaction: Transaction, coin: String, lastBlockHeight: Int?) {
+    func bind(transaction: Transaction, coin: String, irreversibleBlockHeight: Int?) {
+        var status = "n/a"
+
+        if let irreversibleBlockHeight = irreversibleBlockHeight {
+            if transaction.blockNumber <= irreversibleBlockHeight {
+                status = "irreversible"
+            } else {
+                status = "\(transaction.blockNumber - irreversibleBlockHeight) blocks until irreversibility"
+            }
+        }
+
         set(string: """
                     Tx Id:
+                    Status:
+                    Block number:
                     Sequence:
                     Date:
                     Quantity:
@@ -25,6 +37,8 @@ class TransactionCell: UITableViewCell {
 
         set(string: """
                     \(shorten(string: transaction.id))
+                    \(status)
+                    \(transaction.blockNumber)
                     \(transaction.actionSequence)
                     \(TransactionCell.dateFormatter.string(from: transaction.date))
                     \(transaction.quantity.amount) \(transaction.quantity.symbol)

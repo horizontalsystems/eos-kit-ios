@@ -23,8 +23,8 @@ extension EosAdapter {
         return asset.symbol
     }
 
-    var lastBlockHeight: Int? {
-        return nil
+    var irreversibleBlockHeight: Int? {
+        return eosKit.irreversibleBlockHeight
     }
 
     var syncState: EosKit.SyncState {
@@ -35,12 +35,8 @@ extension EosAdapter {
         return asset.balance
     }
 
-    var receiveAddress: String {
-        return ""
-    }
-
-    var lastBlockHeightObservable: Observable<Void> {
-        return Observable.empty()
+    var irreversibleBlockHeightObservable: Observable<Void> {
+        return eosKit.irreversibleBlockHeightObservable.map { _ in () }
     }
 
     var syncStateObservable: Observable<Void> {

@@ -17,7 +17,7 @@ class BalanceController: UITableViewController {
         tableView.separatorInset = .zero
 
         for (index, adapter) in adapters.enumerated() {
-            Observable.merge([adapter.lastBlockHeightObservable, adapter.syncStateObservable, adapter.balanceObservable])
+            Observable.merge([adapter.irreversibleBlockHeightObservable, adapter.syncStateObservable, adapter.balanceObservable])
                     .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                     .observeOn(MainScheduler.instance)
                     .subscribe(onNext: { [weak self] in

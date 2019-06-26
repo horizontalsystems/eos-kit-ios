@@ -1,6 +1,9 @@
 import RxSwift
 
 protocol IStorage {
+    var irreversibleBlock: IrreversibleBlock? { get }
+    func save(irreversibleBlock: IrreversibleBlock)
+
     func balance(token: String, symbol: String) -> Balance?
     func save(balances: [Balance])
 
@@ -21,5 +24,6 @@ protocol IBalanceManagerDelegate: AnyObject {
 }
 
 protocol IActionManagerDelegate: AnyObject {
+    func didSync(irreversibleBlock: IrreversibleBlock)
     func didSync(actions: [Action])
 }

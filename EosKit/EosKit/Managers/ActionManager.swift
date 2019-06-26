@@ -16,6 +16,10 @@ class ActionManager {
         self.logger = logger
     }
 
+    var irreversibleBlock: IrreversibleBlock? {
+        return storage.irreversibleBlock
+    }
+
     func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
         return storage.actionsSingle(receiver: account, token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
     }
@@ -38,9 +42,13 @@ class ActionManager {
     }
 
     private func handle(response: EosioRpcActionsResponse) {
-        logger.debug("Actions received: \(response.actions.count)")
+        logger.debug("Actions received: \(response.actions.count) --- \(response.lastIrreversibleBlock)")
 
+        let irreversibleBlock = IrreversibleBlock(height: Int(response.lastIrreversibleBlock.value))
         let actions = response.actions.map { action(from: $0) }
+
+        storage.save(irreversibleBlock: irreversibleBlock)
+        delegate?.didSync(irreversibleBlock: irreversibleBlock)
 
         guard !actions.isEmpty else {
             return
