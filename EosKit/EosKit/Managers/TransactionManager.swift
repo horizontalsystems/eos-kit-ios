@@ -2,24 +2,22 @@ import RxSwift
 import EosioSwift
 
 class TransactionManager {
-    private let account: String
     private let storage: IStorage
     private let transactionFactory: EosioTransactionFactory
     private let logger: Logger
 
-    init(account: String, storage: IStorage, transactionFactory: EosioTransactionFactory, logger: Logger) {
-        self.account = account
+    init(storage: IStorage, transactionFactory: EosioTransactionFactory, logger: Logger) {
         self.storage = storage
         self.transactionFactory = transactionFactory
         self.logger = logger
     }
 
-    func sendSingle(token: String, to: String, quantity: Quantity, memo: String) -> Single<String?> {
+    func sendSingle(account: String, token: String, to: String, quantity: Quantity, memo: String) -> Single<String?> {
         return Single.create { [unowned self] observer in
             self.logger.verbose("Sending transaction: \(token); \(to); \(quantity); \(memo)")
 
             do {
-                let transaction = try self.transaction(token: token, to: to, quantity: quantity, memo: memo)
+                let transaction = try self.transaction(account: account, token: token, to: to, quantity: quantity, memo: memo)
 
                 transaction.signAndBroadcast { result in
 //                    let transactionJson = try? transaction.toJson(prettyPrinted: true)
@@ -44,7 +42,7 @@ class TransactionManager {
         }
     }
 
-    private func transaction(token: String, to: String, quantity: Quantity, memo: String) throws -> EosioTransaction {
+    private func transaction(account: String, token: String, to: String, quantity: Quantity, memo: String) throws -> EosioTransaction {
         let transaction = transactionFactory.newTransaction()
 
         let action = try EosioTransaction.Action(

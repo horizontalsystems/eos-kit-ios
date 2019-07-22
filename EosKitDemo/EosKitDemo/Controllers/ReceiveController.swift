@@ -12,11 +12,11 @@ class ReceiveController: UIViewController {
         accountLabel?.layer.cornerRadius = 8
         accountLabel?.clipsToBounds = true
 
-        accountLabel?.text = "  \(Manager.shared.account!)  "
+        accountLabel?.text = "  \(Manager.shared.eosKit!.account)  "
     }
 
     @IBAction func copyToClipboard() {
-        UIPasteboard.general.setValue(Manager.shared.account!, forPasteboardType: "public.plain-text")
+        UIPasteboard.general.setValue(Manager.shared.eosKit!.account, forPasteboardType: "public.plain-text")
 
         let alert = UIAlertController(title: "Success", message: "Account copied", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))

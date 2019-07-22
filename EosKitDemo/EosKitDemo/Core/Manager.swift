@@ -7,7 +7,6 @@ class Manager {
     private let keyAuth = "eos_auth"
 
     var eosKit: EosKit!
-    var account: String!
 
     var eosAdapters = [EosAdapter]()
 
@@ -27,7 +26,6 @@ class Manager {
         clearAuth()
 
         eosKit = nil
-        account = nil
         eosAdapters = []
     }
 
@@ -50,7 +48,6 @@ class Manager {
         ]
 
         self.eosKit = eosKit
-        self.account = account
     }
 
     private var savedAuth: (account: String, activePrivateKey: String)? {

@@ -4,13 +4,11 @@ import EosioSwift
 class ActionManager {
     weak var delegate: IActionManagerDelegate?
 
-    private let account: String
     private let storage: IStorage
     private let rpcProvider: EosioRpcProvider
     private let logger: Logger
 
-    init(account: String, storage: IStorage, rpcProvider: EosioRpcProvider, logger: Logger) {
-        self.account = account
+    init(storage: IStorage, rpcProvider: EosioRpcProvider, logger: Logger) {
         self.storage = storage
         self.rpcProvider = rpcProvider
         self.logger = logger
@@ -20,11 +18,11 @@ class ActionManager {
         return storage.irreversibleBlock
     }
 
-    func actionsSingle(token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
+    func actionsSingle(account: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
         return storage.actionsSingle(receiver: account, token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
     }
 
-    func sync() {
+    func sync(account: String) {
         let lastSequence = storage.lastAction?.accountActionSequence ?? -1
 
         logger.verbose("Syncing actions starting from \(lastSequence)")
@@ -34,14 +32,14 @@ class ActionManager {
         rpcProvider.getActions(requestParameters: request) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.handle(response: response)
+                self?.handle(response: response, account: account)
             case .failure(let error):
                 self?.logger.error("ActionManager sync failure: \(error.reason)")
             }
         }
     }
 
-    private func handle(response: EosioRpcActionsResponse) {
+    private func handle(response: EosioRpcActionsResponse, account: String) {
         logger.debug("Actions received: \(response.actions.count) --- \(response.lastIrreversibleBlock)")
 
         let irreversibleBlock = IrreversibleBlock(height: Int(response.lastIrreversibleBlock.value))
@@ -59,7 +57,7 @@ class ActionManager {
         let filteredActions = actions.filter { $0.receiver == account && $0.name == "transfer" }
         delegate?.didSync(actions: filteredActions)
 
-        sync()
+        sync(account: account)
     }
 
     private func action(from actionResponse: EosioRpcActionsResponseAction) -> Action {

@@ -13,13 +13,15 @@ public class EosKit {
 
     private let logger: Logger
 
+    public let account: String
     public var irreversibleBlockHeight: Int?
     private let irreversibleBlockHeightSubject = PublishSubject<Int>()
 
     private var assets = [Asset]()
     private var syncingAssets = [Asset]()
 
-    init(balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, logger: Logger) {
+    init(account: String, balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, logger: Logger) {
+        self.account = account
         self.balanceManager = balanceManager
         self.actionManager = actionManager
         self.transactionManager = transactionManager
@@ -65,7 +67,7 @@ public class EosKit {
             return
         }
 
-        balanceManager.sync(token: token)
+        balanceManager.sync(account: account, token: token)
     }
 
     private func syncActions() {
@@ -73,7 +75,7 @@ public class EosKit {
             return
         }
 
-        actionManager.sync()
+        actionManager.sync(account: account)
     }
 
 }
@@ -109,13 +111,13 @@ extension EosKit {
     }
 
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
-        return actionManager.actionsSingle(token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
+        return actionManager.actionsSingle(account: account, token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
                 .map { $0.compactMap { Transaction(action: $0) } }
     }
 
     public func sendSingle(asset: Asset, to: String, amount: Decimal, memo: String) -> Single<String?> {
         let quantity = Quantity(amount: amount, symbol: asset.symbol)
-        return transactionManager.sendSingle(token: asset.token, to: to, quantity: quantity, memo: memo)
+        return transactionManager.sendSingle(account: account, token: asset.token, to: to, quantity: quantity, memo: memo)
                 .do(onSuccess: { [weak self] _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self?.refresh()
@@ -185,17 +187,17 @@ extension EosKit {
 
         let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://eos.greymass.com")!)
 
-        let balanceManager = BalanceManager(account: account, storage: storage, rpcProvider: rpcProvider, logger: logger)
-        let actionManager = ActionManager(account: account, storage: storage, rpcProvider: rpcProvider, logger: logger)
+        let balanceManager = BalanceManager(storage: storage, rpcProvider: rpcProvider, logger: logger)
+        let actionManager = ActionManager(storage: storage, rpcProvider: rpcProvider, logger: logger)
 
         let serializationProvider = EosioAbieosSerializationProvider()
         let signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: [activePrivateKey])
         let transactionFactory = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
 
-        let transactionManager = TransactionManager(account: account, storage: storage, transactionFactory: transactionFactory, logger: logger)
+        let transactionManager = TransactionManager(storage: storage, transactionFactory: transactionFactory, logger: logger)
         let reachabilityManager = ReachabilityManager()
 
-        let eosKit = EosKit(balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, reachabilityManager: reachabilityManager, logger: logger)
+        let eosKit = EosKit(account: account, balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, reachabilityManager: reachabilityManager, logger: logger)
 
         balanceManager.delegate = eosKit
         actionManager.delegate = eosKit
