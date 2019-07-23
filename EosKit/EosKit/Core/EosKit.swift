@@ -127,6 +127,18 @@ extension EosKit {
 
 }
 
+extension EosKit {
+
+    public static func validate(privateKey: String) throws {
+        do {
+            _ = try EosioSoftkeySignatureProvider(privateKeys: [privateKey])
+        } catch {
+            throw ValidationError.invalidPrivateKey
+        }
+    }
+
+}
+
 extension EosKit: IBalanceManagerDelegate {
 
     func didSync(token: String, balances: [Balance]) {
@@ -240,6 +252,10 @@ extension EosKit {
     public enum NetworkType {
         case mainNet
         case testNet
+    }
+
+    public enum ValidationError: Error {
+        case invalidPrivateKey
     }
 
 }
