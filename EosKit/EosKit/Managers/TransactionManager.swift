@@ -31,7 +31,11 @@ class TransactionManager {
                     case .failure (let error):
                         self.logger.error("TransactionManager send failure: \(error) \(error.reason)")
 
-                        observer(.error(ErrorUtils.getBackendError(from: error, logger: self.logger)))
+                        let backendError = error.backendError
+                        if case .unknown(let message) = backendError {
+                            self.logger.error("TransactionManager failure parse error: \(message)")
+                        }
+                        observer(.error(backendError))
                     }
                 }
             } catch {
