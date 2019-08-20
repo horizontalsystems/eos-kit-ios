@@ -17,7 +17,7 @@ class Manager {
     }
 
     func login(account: String, activePrivateKey: String) throws {
-        try EosKit.clear()
+        try EosKit.clear(exceptFor: ["walletId"])
         try initEosKit(account: account, activePrivateKey: activePrivateKey)
         save(account: account, activePrivateKey: activePrivateKey)
     }
@@ -36,6 +36,7 @@ class Manager {
                 account: account,
                 activePrivateKey: activePrivateKey,
                 networkType: configuration.networkType,
+                walletId: "walletId",
                 minLogLevel: configuration.minLogLevel
         )
 
