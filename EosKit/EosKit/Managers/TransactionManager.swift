@@ -31,7 +31,7 @@ class TransactionManager {
                     case .failure (let error):
                         self.logger.error("TransactionManager send failure: \(error) \(error.reason)")
 
-                        observer(.error(error))
+                        observer(.error(ErrorUtils.getBackendError(from: error, logger: self.logger)))
                     }
                 }
             } catch {

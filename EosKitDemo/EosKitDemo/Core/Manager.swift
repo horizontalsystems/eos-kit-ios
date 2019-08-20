@@ -45,6 +45,7 @@ class Manager {
         eosAdapters = [
             EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "EOS"),
             EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "ERM"),
+            EosAdapter(eosKit: eosKit, token: "everipediaiq", symbol: "IQ"),
             EosAdapter(eosKit: eosKit, token: "betdicetoken", symbol: "DICE"),
         ]
 

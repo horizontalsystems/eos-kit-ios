@@ -21,6 +21,8 @@
 		11B35CEC6338CA1FACE45CEA /* IrreversibleBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3549FF92C4C8A4EF19BBD /* IrreversibleBlock.swift */; };
 		11B35D7E857ECC56DED8DE65 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B358212B25804FB90821D4 /* TransactionManager.swift */; };
 		11B35EAFCAC2D9BD68084378 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B350A2D8FE59A410FF763C /* Transaction.swift */; };
+		1A56451B5387B7114ADB7A78 /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5646E2838C08DACED27485 /* BackendError.swift */; };
+		1A564A540A7B30B9D683A5D4 /* ErrorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A56458453832778FB4D13A0 /* ErrorUtils.swift */; };
 		2A32867AB048F30B29C71647 /* Pods_EosKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD845577B4E49A385855E7D6 /* Pods_EosKit.framework */; };
 		2FA5DB25840B287D4DE5CEDE /* EosKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D197843DCF8B688B94E0 /* EosKit.swift */; };
 		3A19DED1216F4422009109F2 /* EosKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A3B59A4216B1B13001C5E99 /* EosKit.framework */; };
@@ -55,6 +57,8 @@
 		11B35A79C9C6DDA3F51C3DB5 /* ActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
 		11B35BC8BD8A75D6162E15BA /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		11B35FEC39893D5963D865B6 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		1A56458453832778FB4D13A0 /* ErrorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorUtils.swift; sourceTree = "<group>"; };
+		1A5646E2838C08DACED27485 /* BackendError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
 		247F610A5A3B6BFA505E1FD1 /* Pods-EosKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosKit.release.xcconfig"; path = "Target Support Files/Pods-EosKit/Pods-EosKit.release.xcconfig"; sourceTree = "<group>"; };
 		2FA5D197843DCF8B688B94E0 /* EosKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosKit.swift; sourceTree = "<group>"; };
 		3A19DECC216F4422009109F2 /* EosKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,6 +160,7 @@
 				11B357967B62A00F4AAFDF01 /* Quantity.swift */,
 				11B35BC8BD8A75D6162E15BA /* Asset.swift */,
 				11B3549FF92C4C8A4EF19BBD /* IrreversibleBlock.swift */,
+				1A5646E2838C08DACED27485 /* BackendError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 				11B357626B809CC6A964D5B1 /* Logger.swift */,
 				2FA5D197843DCF8B688B94E0 /* EosKit.swift */,
 				11B35FEC39893D5963D865B6 /* Storage.swift */,
+				1A56458453832778FB4D13A0 /* ErrorUtils.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -411,6 +417,8 @@
 				11B358396611AA2DF8FE1D4F /* Asset.swift in Sources */,
 				11B35D7E857ECC56DED8DE65 /* TransactionManager.swift in Sources */,
 				11B35CEC6338CA1FACE45CEA /* IrreversibleBlock.swift in Sources */,
+				1A56451B5387B7114ADB7A78 /* BackendError.swift in Sources */,
+				1A564A540A7B30B9D683A5D4 /* ErrorUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
