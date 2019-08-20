@@ -1,3 +1,6 @@
+import EosioSwift
+import PromiseKit
+
 public extension Data {
 
     init?(hex: String) {
@@ -57,6 +60,39 @@ extension String {
         }
 
         return prefix.appending(self)
+    }
+
+}
+
+extension EosioError {
+
+    var backendError: BackendError {
+        guard let httpError = originalError as? PromiseKit.PMKHTTPError,
+              let errorDictionary = (httpError.jsonDictionary as? [String: Any])?["error"] as? [String: Any],
+              let detailsArray = errorDictionary["details"] as? [[String: Any]] else {
+            return .unknown(message: "Can't parse details")
+        }
+        var messages = ""
+        for detail in detailsArray {
+            if let message = detail["message"] as? String {
+                messages += "\(message) - "
+            }
+        }
+        if messages.contains(words: "cannot transfer to self") {
+            return .selfTransfer
+        } else if messages.contains(words: "account does not exist") {
+            return .accountNotExist
+        } else if messages.contains(words: "overdrawn") || messages.contains(words: "no balance object found") {
+            return .overdrawn
+        } else if messages.contains(words: "symbol precision mismatch") {
+            return .precisionMismatch
+        } else if messages.contains(words: "insufficient ram") {
+            return .insufficientRam
+        } else if messages.contains(words: "unable to find key") {
+            return .wrongContract
+        }
+
+        return .unknown(message: messages)
     }
 
 }

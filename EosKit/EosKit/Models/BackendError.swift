@@ -5,5 +5,5 @@ public enum BackendError: Error {
     case precisionMismatch
     case insufficientRam
     case wrongContract
-    case unknown
+    case unknown(message: String)
 }
