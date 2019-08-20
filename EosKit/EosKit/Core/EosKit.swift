@@ -191,7 +191,7 @@ extension EosKit: IActionManagerDelegate {
 
 extension EosKit {
 
-    public static func instance(account: String, activePrivateKey: String, networkType: NetworkType = .mainNet, walletId: String = "default", minLogLevel: Logger.Level = .error) throws -> EosKit {
+    public static func instance(account: String, activePrivateKey: String, networkType: NetworkType = .mainNet, walletId: String, minLogLevel: Logger.Level = .error) throws -> EosKit {
         let logger = Logger(minLogLevel: minLogLevel)
 
         let uniqueId = "\(walletId)-\(networkType)"
@@ -217,13 +217,14 @@ extension EosKit {
         return eosKit
     }
 
-    public static func clear() throws {
+    public static func clear(exceptFor excludedFiles: [String]) throws {
         let fileManager = FileManager.default
+        let fileUrls = try fileManager.contentsOfDirectory(at: dataDirectoryUrl(), includingPropertiesForKeys: nil)
 
-        let urls = try fileManager.contentsOfDirectory(at: dataDirectoryUrl(), includingPropertiesForKeys: nil)
-
-        for url in urls {
-            try fileManager.removeItem(at: url)
+        for filename in fileUrls {
+            if !excludedFiles.contains(where: { filename.lastPathComponent.contains($0) }) {
+                try fileManager.removeItem(at: filename)
+            }
         }
     }
 
