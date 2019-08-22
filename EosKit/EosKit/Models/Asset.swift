@@ -3,6 +3,7 @@ import RxSwift
 public class Asset {
     public let token: String
     public let symbol: String
+    public let decimalCount: Int
 
     public var balance: Decimal {
         didSet {
@@ -20,9 +21,10 @@ public class Asset {
     private let balanceSubject = PublishSubject<Decimal>()
     let transactionsSubject = PublishSubject<[Transaction]>()
 
-    init(token: String, symbol: String, balance: Decimal) {
+    init(token: String, symbol: String, decimalCount: Int, balance: Decimal) {
         self.token = token
         self.symbol = symbol
+        self.decimalCount = decimalCount
         self.balance = balance
     }
 

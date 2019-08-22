@@ -43,10 +43,10 @@ class Manager {
         eosKit.refresh()
 
         eosAdapters = [
-            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "EOS"),
-            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "ERM"),
-            EosAdapter(eosKit: eosKit, token: "everipediaiq", symbol: "IQ"),
-            EosAdapter(eosKit: eosKit, token: "betdicetoken", symbol: "DICE"),
+            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "EOS", decimalCount: 4),
+            EosAdapter(eosKit: eosKit, token: "eosio.token", symbol: "ERM", decimalCount: 2),
+            EosAdapter(eosKit: eosKit, token: "everipediaiq", symbol: "IQ", decimalCount: 3),
+            EosAdapter(eosKit: eosKit, token: "betdicetoken", symbol: "DICE", decimalCount: 4),
         ]
 
         self.eosKit = eosKit

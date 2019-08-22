@@ -12,12 +12,12 @@ class TransactionManager {
         self.logger = logger
     }
 
-    func sendSingle(account: String, token: String, to: String, quantity: Quantity, memo: String) -> Single<String?> {
+    func sendSingle(account: String, token: String, to: String, quantityString: String, memo: String) -> Single<String?> {
         return Single.create { [unowned self] observer in
-            self.logger.verbose("Sending transaction: \(token); \(to); \(quantity); \(memo)")
+            self.logger.verbose("Sending transaction: \(token); \(to); \(quantityString); \(memo)")
 
             do {
-                let transaction = try self.transaction(account: account, token: token, to: to, quantity: quantity, memo: memo)
+                let transaction = try self.transaction(account: account, token: token, to: to, quantityString: quantityString, memo: memo)
 
                 transaction.signAndBroadcast { result in
 //                    let transactionJson = try? transaction.toJson(prettyPrinted: true)
@@ -46,7 +46,7 @@ class TransactionManager {
         }
     }
 
-    private func transaction(account: String, token: String, to: String, quantity: Quantity, memo: String) throws -> EosioTransaction {
+    private func transaction(account: String, token: String, to: String, quantityString: String, memo: String) throws -> EosioTransaction {
         let transaction = transactionFactory.newTransaction()
 
         let action = try EosioTransaction.Action(
@@ -61,7 +61,7 @@ class TransactionManager {
                 data: TransferActionData(
                         from: EosioName(account),
                         to: EosioName(to),
-                        quantity: quantity.description,
+                        quantity: quantityString,
                         memo: memo
                 )
         )

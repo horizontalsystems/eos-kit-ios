@@ -25,27 +25,3 @@ public class Quantity {
     }
 
 }
-
-extension Quantity: CustomStringConvertible {
-
-    public var description: String {
-        let amountString = Quantity.formatter.string(from: amount as NSDecimalNumber) ?? ""
-        return "\(amountString) \(symbol)"
-    }
-
-}
-
-extension Quantity {
-
-    static let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-
-        formatter.minimumFractionDigits = 4
-        formatter.maximumFractionDigits = 4
-        formatter.decimalSeparator = "."
-        formatter.minimumIntegerDigits = 1
-
-        return formatter
-    }()
-
-}

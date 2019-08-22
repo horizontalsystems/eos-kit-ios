@@ -84,9 +84,9 @@ public class EosKit {
 
 extension EosKit {
 
-    public func register(token: String, symbol: String) -> Asset {
+    public func register(token: String, symbol: String, decimalCount: Int) -> Asset {
         let balance = balanceManager.balance(token: token, symbol: symbol)?.quantity.amount ?? 0
-        let asset = Asset(token: token, symbol: symbol, balance: balance)
+        let asset = Asset(token: token, symbol: symbol, decimalCount: decimalCount, balance: balance)
 
         assets.append(asset)
         sync(asset: asset)
@@ -116,8 +116,13 @@ extension EosKit {
     }
 
     public func sendSingle(asset: Asset, to: String, amount: Decimal, memo: String) -> Single<String?> {
-        let quantity = Quantity(amount: amount, symbol: asset.symbol)
-        return transactionManager.sendSingle(account: account, token: asset.token, to: to, quantity: quantity, memo: memo)
+        let formatter = EosKit.formatter
+        formatter.minimumFractionDigits = asset.decimalCount
+        formatter.maximumFractionDigits = asset.decimalCount
+        let amountString = formatter.string(from: amount as NSDecimalNumber) ?? ""
+        let quantityString = "\(amountString) \(asset.symbol)"
+
+        return transactionManager.sendSingle(account: account, token: asset.token, to: to, quantityString: quantityString, memo: memo)
                 .do(onSuccess: { [weak self] _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self?.refresh()
@@ -258,5 +263,18 @@ extension EosKit {
     public enum ValidationError: Error {
         case invalidPrivateKey
     }
+
+}
+
+extension EosKit {
+
+    private static let formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+
+        formatter.decimalSeparator = "."
+        formatter.minimumIntegerDigits = 1
+
+        return formatter
+    }()
 
 }
