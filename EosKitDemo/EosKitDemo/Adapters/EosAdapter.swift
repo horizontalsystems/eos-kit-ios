@@ -5,10 +5,10 @@ class EosAdapter {
     private let eosKit: EosKit
     private let asset: Asset
 
-    init(eosKit: EosKit, token: String, symbol: String) {
+    init(eosKit: EosKit, token: String, symbol: String, decimalCount: Int) {
         self.eosKit = eosKit
 
-        asset = eosKit.register(token: token, symbol: symbol)
+        asset = eosKit.register(token: token, symbol: symbol, decimalCount: decimalCount)
     }
 
 }
