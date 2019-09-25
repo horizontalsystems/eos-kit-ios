@@ -1,43 +1,43 @@
 PODS:
-  - Alamofire (4.8.2)
-  - BigInt (3.1.0):
-    - SipHash (~> 1.2)
-  - Cuckoo (1.0.6)
-  - EosioSwift (0.1.1):
-    - BigInt (~> 3.1)
+  - Alamofire (4.9.0)
+  - BigInt (4.0.0)
+  - Cuckoo (1.2.0):
+    - Cuckoo/Swift (= 1.2.0)
+  - Cuckoo/Swift (1.2.0)
+  - EosioSwift (0.1.3):
+    - BigInt (~> 4.0)
     - PromiseKit (~> 6.8)
-  - EosioSwiftAbieosSerializationProvider (0.1.1):
-    - EosioSwift (~> 0.1.1)
-  - EosioSwiftEcc (0.1.1):
-    - EosioSwift (~> 0.1.1)
-    - GRKOpenSSLFramework (~> 1.0)
-  - EosioSwiftSoftkeySignatureProvider (0.1.1):
-    - EosioSwift (~> 0.1.1)
-    - EosioSwiftEcc (~> 0.1.1)
-  - GRDB.swift (4.1.1):
-    - GRDB.swift/standard (= 4.1.1)
-  - GRDB.swift/standard (4.1.1)
+  - EosioSwiftAbieosSerializationProvider (0.1.3):
+    - EosioSwift (~> 0.1.3)
+  - EosioSwiftEcc (0.1.3):
+    - EosioSwift (~> 0.1.3)
+    - GRKOpenSSLFramework (= 1.0.2.16)
+  - EosioSwiftSoftkeySignatureProvider (0.1.3):
+    - EosioSwift (~> 0.1.3)
+    - EosioSwiftEcc (~> 0.1.3)
+  - GRDB.swift (4.4.0):
+    - GRDB.swift/standard (= 4.4.0)
+  - GRDB.swift/standard (4.4.0)
   - GRKOpenSSLFramework (1.0.2.16)
-  - Nimble (8.0.2)
-  - PromiseKit (6.9.0):
-    - PromiseKit/CorePromise (= 6.9.0)
-    - PromiseKit/Foundation (= 6.9.0)
-    - PromiseKit/UIKit (= 6.9.0)
-  - PromiseKit/CorePromise (6.9.0)
-  - PromiseKit/Foundation (6.9.0):
+  - Nimble (8.0.4)
+  - PromiseKit (6.11.0):
+    - PromiseKit/CorePromise (= 6.11.0)
+    - PromiseKit/Foundation (= 6.11.0)
+    - PromiseKit/UIKit (= 6.11.0)
+  - PromiseKit/CorePromise (6.11.0)
+  - PromiseKit/Foundation (6.11.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.9.0):
+  - PromiseKit/UIKit (6.11.0):
     - PromiseKit/CorePromise
-  - Quick (2.1.0)
+  - Quick (2.2.0)
   - RxSwift (5.0.0)
-  - SipHash (1.2.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - Cuckoo
   - EosioSwift (from `https://github.com/horizontalsystems/eosio-swift`)
-  - EosioSwiftAbieosSerializationProvider (~> 0.1.1)
-  - EosioSwiftSoftkeySignatureProvider (~> 0.1.1)
+  - EosioSwiftAbieosSerializationProvider (~> 0.1.3)
+  - EosioSwiftSoftkeySignatureProvider (~> 0.1.3)
   - GRDB.swift (~> 4.0)
   - Nimble
   - Quick
@@ -57,7 +57,6 @@ SPEC REPOS:
     - PromiseKit
     - Quick
     - RxSwift
-    - SipHash
 
 EXTERNAL SOURCES:
   EosioSwift:
@@ -65,25 +64,24 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   EosioSwift:
-    :commit: cefc5745692a6660622eb7037655f6abf3fd1928
+    :commit: d181f4fcd4ca3d7e0254e40088ebeb083e24cec2
     :git: https://github.com/horizontalsystems/eosio-swift
 
 SPEC CHECKSUMS:
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
-  Cuckoo: 8074fc309159c4862665b83798f5ad03e061e8bd
-  EosioSwift: 5178c1e7941704fb2a433b1669ee74fe80ae1540
-  EosioSwiftAbieosSerializationProvider: 281b16b5fe0787aa1cf1c709d9ca3f5696b8ebba
-  EosioSwiftEcc: 24800b7d1577f13d64413ded2a36f6993ebf7896
-  EosioSwiftSoftkeySignatureProvider: d60802257e87ad3ff973c760a4b4620e246e485f
-  GRDB.swift: 99b10e1afa666ff024d76e38b37fefd34b57def4
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
+  Cuckoo: f5f4e7c308c512cc2dedbdce23f5dc6985cb5173
+  EosioSwift: 629bb731f0c4121a7b54bd1a18dda87c19f08824
+  EosioSwiftAbieosSerializationProvider: 6726a56aedd9cc6b5ec3636dd68945f44a48e311
+  EosioSwiftEcc: 41934ba819a5bedb6563d58a6d08aa389fb5903a
+  EosioSwiftSoftkeySignatureProvider: dbbcc7f9cf170f801a13afb8f5a203699bd92621
+  GRDB.swift: 4f9b6e7efc9470426f6a6de10ec1fee798ff7e43
   GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
-  Nimble: 622629381bda1dd5678162f21f1368cec7cbba60
-  PromiseKit: 97397236f9e9c443d5b70a941d49cad25160af7a
-  Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
+  Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+  Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
-  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
 
-PODFILE CHECKSUM: b7373427d9316b0619d476f43ff62d7c61c76094
+PODFILE CHECKSUM: 20e016fdd7d0a86102d935f4b046cd63c054adcf
 
 COCOAPODS: 1.7.5
