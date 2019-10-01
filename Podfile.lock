@@ -64,7 +64,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   EosioSwift:
-    :commit: d181f4fcd4ca3d7e0254e40088ebeb083e24cec2
+    :commit: f80fe0a8e543b2d49b5d75f46248802615ee0e8d
     :git: https://github.com/horizontalsystems/eosio-swift
 
 SPEC CHECKSUMS:
