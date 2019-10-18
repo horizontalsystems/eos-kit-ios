@@ -20,12 +20,15 @@ public class EosKit {
     private var assets = [Asset]()
     private var syncingAssets = [Asset]()
 
-    init(account: String, balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, logger: Logger) {
+    private var networkType: NetworkType
+
+    init(account: String, balanceManager: BalanceManager, actionManager: ActionManager, transactionManager: TransactionManager, reachabilityManager: ReachabilityManager, networkType: NetworkType = .mainNet, logger: Logger) {
         self.account = account
         self.balanceManager = balanceManager
         self.actionManager = actionManager
         self.transactionManager = transactionManager
         self.reachabilityManager = reachabilityManager
+        self.networkType = networkType
         self.logger = logger
 
         irreversibleBlockHeight = actionManager.irreversibleBlock?.height
@@ -78,6 +81,23 @@ public class EosKit {
         actionManager.sync(account: account)
     }
 
+    private var kitSyncState: String {
+        if assets.first(where: { $0.syncState == .syncing }) != nil {
+            return SyncState.syncing.description
+        }
+        if assets.first(where: { $0.syncState == .notSynced }) != nil {
+            return SyncState.notSynced.description
+        }
+        return SyncState.synced.description
+    }
+
+    private static func rpcHost(for networkType: NetworkType) -> String {
+        switch networkType {
+        case .mainNet: return "https://eos.greymass.com"
+        case .testNet: return "https://peer1-jungle.eosphere.io"
+        }
+    }
+
 }
 
 // Public API Extension
@@ -128,6 +148,14 @@ extension EosKit {
                         self?.refresh()
                     }
                 })
+    }
+
+    public var statusInfo: [(String, Any)] {
+        [
+            ("Irreversible Block Height", " \((irreversibleBlockHeight.map { "\($0)" }) ?? "N/A")"),
+            ("Sync State", kitSyncState),
+            ("RPC Host", EosKit.rpcHost(for: networkType))
+        ]
     }
 
 }
@@ -202,7 +230,7 @@ extension EosKit {
         let uniqueId = "\(walletId)-\(networkType)"
         let storage: IStorage = try Storage(databaseDirectoryUrl: dataDirectoryUrl(), databaseFileName: "eos-\(uniqueId)")
 
-        let rpcProvider = EosioRpcProvider(endpoint: URL(string: "https://eos.greymass.com")!)
+        let rpcProvider = EosioRpcProvider(endpoint: URL(string: EosKit.rpcHost(for: networkType))!)
 
         let balanceManager = BalanceManager(storage: storage, rpcProvider: rpcProvider, logger: logger)
         let actionManager = ActionManager(storage: storage, rpcProvider: rpcProvider, logger: logger)
@@ -214,7 +242,7 @@ extension EosKit {
         let transactionManager = TransactionManager(storage: storage, transactionFactory: transactionFactory, logger: logger)
         let reachabilityManager = ReachabilityManager()
 
-        let eosKit = EosKit(account: account, balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, reachabilityManager: reachabilityManager, logger: logger)
+        let eosKit = EosKit(account: account, balanceManager: balanceManager, actionManager: actionManager, transactionManager: transactionManager, reachabilityManager: reachabilityManager, networkType: networkType, logger: logger)
 
         balanceManager.delegate = eosKit
         actionManager.delegate = eosKit
@@ -249,10 +277,19 @@ extension EosKit {
 
 extension EosKit {
 
-    public enum SyncState {
+    public enum SyncState: CustomStringConvertible {
         case synced
         case syncing
         case notSynced
+
+        public var description: String {
+            switch self {
+            case .synced: return "synced"
+            case .syncing: return "syncing"
+            case .notSynced: return "not synced"
+            }
+        }
+
     }
 
     public enum NetworkType {
