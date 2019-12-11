@@ -14,8 +14,8 @@ def common_pods
   pod 'Alamofire', '~> 4.0'
 
   pod 'EosioSwift', git: 'https://github.com/horizontalsystems/eosio-swift'
-  pod 'EosioSwiftAbieosSerializationProvider', '~> 0.1.3'
-  pod 'EosioSwiftSoftkeySignatureProvider', '~> 0.1.3'
+  pod 'EosioSwiftAbieosSerializationProvider', git: 'https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git'
+  pod 'EosioSwiftSoftkeySignatureProvider', '~> 0.2.1'
 end
 
 def test_pods
