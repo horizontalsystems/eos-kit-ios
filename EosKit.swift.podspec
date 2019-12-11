@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
   spec.name = 'EosKit.swift'
   spec.module_name = 'EosKit'
-  spec.version = '0.1.3'
+  spec.version = '0.2.1'
   spec.summary = 'EOS blockchain library for Swift'
   spec.description = <<-DESC
                        Eos.swift implements EOS protocol in Swift.
@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'GRDB.swift', '~> 4.0'
   spec.dependency 'Alamofire', '~> 4.0'
 
-  spec.dependency 'EosioSwift', '~> 0.1.3'
-  spec.dependency 'EosioSwiftAbieosSerializationProvider', '~> 0.1.3'
-  spec.dependency 'EosioSwiftSoftkeySignatureProvider', '~> 0.1.3'
+  spec.dependency 'EosioSwift', '~> 0.2.1'
+  spec.dependency 'EosioSwiftAbieosSerializationProvider', '~> 0.2.1'
+  spec.dependency 'EosioSwiftSoftkeySignatureProvider', '~> 0.2.1'
 end
