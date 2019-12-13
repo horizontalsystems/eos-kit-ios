@@ -1,54 +1,53 @@
 PODS:
-  - Alamofire (4.9.0)
+  - Alamofire (4.9.1)
   - BigInt (4.0.0)
-  - Cuckoo (1.2.0):
-    - Cuckoo/Swift (= 1.2.0)
-  - Cuckoo/Swift (1.2.0)
-  - EosioSwift (0.1.3):
+  - Cuckoo (1.3.0):
+    - Cuckoo/Swift (= 1.3.0)
+  - Cuckoo/Swift (1.3.0)
+  - EosioSwift (0.2.1):
     - BigInt (~> 4.0)
     - PromiseKit (~> 6.8)
-  - EosioSwiftAbieosSerializationProvider (0.1.3):
-    - EosioSwift (~> 0.1.3)
-  - EosioSwiftEcc (0.1.3):
-    - EosioSwift (~> 0.1.3)
-    - GRKOpenSSLFramework (= 1.0.2.16)
-  - EosioSwiftSoftkeySignatureProvider (0.1.3):
-    - EosioSwift (~> 0.1.3)
-    - EosioSwiftEcc (~> 0.1.3)
-  - GRDB.swift (4.4.0):
-    - GRDB.swift/standard (= 4.4.0)
-  - GRDB.swift/standard (4.4.0)
-  - GRKOpenSSLFramework (1.0.2.16)
+  - EosioSwiftAbieosSerializationProvider (0.2.1):
+    - EosioSwift (~> 0.2.1)
+  - EosioSwiftEcc (0.2.1):
+    - EosioSwift (~> 0.2.1)
+    - GRKOpenSSLFramework (= 1.0.2.19)
+  - EosioSwiftSoftkeySignatureProvider (0.2.1):
+    - EosioSwift (~> 0.2.1)
+    - EosioSwiftEcc (~> 0.2.1)
+  - GRDB.swift (4.6.2):
+    - GRDB.swift/standard (= 4.6.2)
+  - GRDB.swift/standard (4.6.2)
+  - GRKOpenSSLFramework (1.0.2.19)
   - Nimble (8.0.4)
-  - PromiseKit (6.11.0):
-    - PromiseKit/CorePromise (= 6.11.0)
-    - PromiseKit/Foundation (= 6.11.0)
-    - PromiseKit/UIKit (= 6.11.0)
-  - PromiseKit/CorePromise (6.11.0)
-  - PromiseKit/Foundation (6.11.0):
+  - PromiseKit (6.12.0):
+    - PromiseKit/CorePromise (= 6.12.0)
+    - PromiseKit/Foundation (= 6.12.0)
+    - PromiseKit/UIKit (= 6.12.0)
+  - PromiseKit/CorePromise (6.12.0)
+  - PromiseKit/Foundation (6.12.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.11.0):
+  - PromiseKit/UIKit (6.12.0):
     - PromiseKit/CorePromise
   - Quick (2.2.0)
-  - RxSwift (5.0.0)
+  - RxSwift (5.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - Cuckoo
   - EosioSwift (from `https://github.com/horizontalsystems/eosio-swift`)
-  - EosioSwiftAbieosSerializationProvider (~> 0.1.3)
-  - EosioSwiftSoftkeySignatureProvider (~> 0.1.3)
+  - EosioSwiftAbieosSerializationProvider (from `https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git`)
+  - EosioSwiftSoftkeySignatureProvider (~> 0.2.1)
   - GRDB.swift (~> 4.0)
   - Nimble
   - Quick
   - RxSwift (~> 5.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Alamofire
     - BigInt
     - Cuckoo
-    - EosioSwiftAbieosSerializationProvider
     - EosioSwiftEcc
     - EosioSwiftSoftkeySignatureProvider
     - GRDB.swift
@@ -61,27 +60,32 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   EosioSwift:
     :git: https://github.com/horizontalsystems/eosio-swift
+  EosioSwiftAbieosSerializationProvider:
+    :git: https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git
 
 CHECKOUT OPTIONS:
   EosioSwift:
-    :commit: f80fe0a8e543b2d49b5d75f46248802615ee0e8d
+    :commit: 424a028ef83b6fd6663ec7b75a9c2e43947a105b
     :git: https://github.com/horizontalsystems/eosio-swift
+  EosioSwiftAbieosSerializationProvider:
+    :commit: 7ac04899e62012e225e0ea48a96951de0b72ad08
+    :git: https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git
 
 SPEC CHECKSUMS:
-  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   BigInt: 2aad1a9942dc932ec8b84290d2c564a3d76f97ab
-  Cuckoo: f5f4e7c308c512cc2dedbdce23f5dc6985cb5173
-  EosioSwift: 629bb731f0c4121a7b54bd1a18dda87c19f08824
-  EosioSwiftAbieosSerializationProvider: 6726a56aedd9cc6b5ec3636dd68945f44a48e311
-  EosioSwiftEcc: 41934ba819a5bedb6563d58a6d08aa389fb5903a
-  EosioSwiftSoftkeySignatureProvider: dbbcc7f9cf170f801a13afb8f5a203699bd92621
-  GRDB.swift: 4f9b6e7efc9470426f6a6de10ec1fee798ff7e43
-  GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
+  Cuckoo: 4045c5a8ce378c919c20c5ff3d6dd11ded0ec699
+  EosioSwift: fd8b29bab34b5e452f14bbfa7cc15ef0d2f78ca8
+  EosioSwiftAbieosSerializationProvider: f5fc013dde26b49d037d9b827fc66c905c22de50
+  EosioSwiftEcc: b0ba4fe71c70c377e30d2ce79fcf1b55864c7669
+  EosioSwiftSoftkeySignatureProvider: dbf7a251a45bc51f1040bed93f2bec67a9620905
+  GRDB.swift: 258520e10b49ff55307cbb0bec701af0742ae621
+  GRKOpenSSLFramework: 4abc733a8fcbc37060619a86a54202d2938dd70e
   Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
-  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+  PromiseKit: c06835ba442ce5454ce3cdde470232804a6e4ff8
   Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
-  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
 
-PODFILE CHECKSUM: 20e016fdd7d0a86102d935f4b046cd63c054adcf
+PODFILE CHECKSUM: 613fed07df76c88c679fe5d34d30ec2e20ec6f5b
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

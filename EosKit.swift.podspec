@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
   spec.name = 'EosKit.swift'
   spec.module_name = 'EosKit'
-  spec.version = '0.2.1'
+  spec.version = '0.3'
   spec.summary = 'EOS blockchain library for Swift'
   spec.description = <<-DESC
                        Eos.swift implements EOS protocol in Swift.

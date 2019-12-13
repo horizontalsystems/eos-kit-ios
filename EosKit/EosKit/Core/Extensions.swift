@@ -80,6 +80,8 @@ extension EosioError {
         }
         if messages.contains(words: "cannot transfer to self") {
             return .selfTransfer
+        } else if messages.contains(words: "greater than the maximum billable CPU") {
+            return .insufficientCpu
         } else if messages.contains(words: "account does not exist") {
             return .accountNotExist
         } else if messages.contains(words: "overdrawn") || messages.contains(words: "no balance object found") {
