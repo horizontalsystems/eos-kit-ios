@@ -93,7 +93,7 @@ public class EosKit {
 
     private static func rpcHost(for networkType: NetworkType) -> String {
         switch networkType {
-        case .mainNet: return "https://eosbp.atticlab.net"
+        case .mainNet: return "https://eos.greymass.com"
         case .testNet: return "https://peer1-jungle.eosphere.io"
         }
     }
