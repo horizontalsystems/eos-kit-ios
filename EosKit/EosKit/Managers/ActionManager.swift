@@ -2,6 +2,8 @@ import RxSwift
 import EosioSwift
 
 class ActionManager {
+    private static let maxRecordFetchCount: Int32 = 100
+
     weak var delegate: IActionManagerDelegate?
 
     private let storage: IStorage
@@ -27,7 +29,7 @@ class ActionManager {
 
         logger.verbose("Syncing actions starting from \(lastSequence)")
 
-        let request = EosioRpcHistoryActionsRequest(position: Int32(lastSequence + 1), offset: 1000, accountName: account)
+        let request = EosioRpcHistoryActionsRequest(position: Int32(lastSequence + 1), offset: ActionManager.maxRecordFetchCount, accountName: account)
 
         rpcProvider.getActions(requestParameters: request) { [weak self] result in
             switch result {
