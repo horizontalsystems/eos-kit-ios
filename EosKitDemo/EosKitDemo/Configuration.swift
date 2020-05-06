@@ -1,4 +1,5 @@
 import EosKit
+import HsToolKit
 
 class Configuration {
     static let shared = Configuration()

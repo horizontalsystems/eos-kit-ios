@@ -1,5 +1,6 @@
 import RxSwift
 import EosioSwift
+import HsToolKit
 
 class ActionManager {
     private static let maxRecordFetchCount: Int32 = 100
