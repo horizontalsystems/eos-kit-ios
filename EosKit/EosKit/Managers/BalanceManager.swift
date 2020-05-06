@@ -1,5 +1,6 @@
 import RxSwift
 import EosioSwift
+import HsToolKit
 
 class BalanceManager {
     weak var delegate: IBalanceManagerDelegate?

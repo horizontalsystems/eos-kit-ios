@@ -13,11 +13,6 @@ protocol IStorage {
     func actionsSingle(receiver: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]>
 }
 
-protocol IReachabilityManager {
-    var isReachable: Bool { get }
-    var reachabilitySignal: Signal { get }
-}
-
 protocol IBalanceManagerDelegate: AnyObject {
     func didSync(token: String, balances: [Balance])
     func didFailToSync(token: String)

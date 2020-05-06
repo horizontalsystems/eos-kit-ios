@@ -2,6 +2,7 @@ import RxSwift
 import EosioSwift
 import EosioSwiftAbieosSerializationProvider
 import EosioSwiftSoftkeySignatureProvider
+import HsToolKit
 
 public class EosKit {
     private let disposeBag = DisposeBag()
@@ -33,9 +34,9 @@ public class EosKit {
 
         irreversibleBlockHeight = actionManager.irreversibleBlock?.height
 
-        reachabilityManager.reachabilitySignal
+        reachabilityManager.reachabilityObservable
                 .observeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-                .subscribe(onNext: { [weak self] in
+                .subscribe(onNext: { [weak self] _ in
                     self?.refresh()
                 })
                 .disposed(by: disposeBag)

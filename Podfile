@@ -11,7 +11,7 @@ project 'EosKitDemo/EosKitDemo'
 def common_pods
   pod 'RxSwift', '~> 5.0'
   pod 'GRDB.swift', '~> 4.0'
-  pod 'Alamofire', '~> 4.0'
+  pod 'HsToolKit.swift', git: 'https://github.com/horizontalsystems/hs-tool-kit-ios'
 
   pod 'EosioSwift', git: 'https://github.com/horizontalsystems/eosio-swift'
   pod 'EosioSwiftAbieosSerializationProvider', git: 'https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git'
