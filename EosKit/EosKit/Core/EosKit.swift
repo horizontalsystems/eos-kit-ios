@@ -43,12 +43,12 @@ public class EosKit {
     }
 
     private func asset(token: String, symbol: String) -> Asset? {
-        return assets.first { $0.token == token && $0.symbol == symbol }
+        assets.first { $0.token == token && $0.symbol == symbol }
     }
 
     private func sync(asset: Asset) {
         guard reachabilityManager.isReachable else {
-            asset.syncState = .notSynced
+            asset.syncState = .notSynced(error: ReachabilityManager.ReachabilityError.notReachable)
             return
         }
 
@@ -83,12 +83,14 @@ public class EosKit {
     }
 
     private var kitSyncState: String {
-        if assets.first(where: { $0.syncState == .syncing }) != nil {
-            return SyncState.syncing.description
+        for asset in assets {
+            switch asset.syncState {
+            case .syncing: return asset.syncState.description
+            case .notSynced: return asset.syncState.description
+            case .synced: ()
+            }
         }
-        if assets.first(where: { $0.syncState == .notSynced }) != nil {
-            return SyncState.notSynced.description
-        }
+
         return SyncState.synced.description
     }
 
@@ -128,11 +130,11 @@ extension EosKit {
     }
 
     public var irreversibleBlockHeightObservable: Observable<Int> {
-        return irreversibleBlockHeightSubject.asObservable()
+        irreversibleBlockHeightSubject.asObservable()
     }
 
     public func transactionsSingle(asset: Asset, fromActionSequence: Int? = nil, limit: Int? = nil) -> Single<[Transaction]> {
-        return actionManager.actionsSingle(account: account, token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
+        actionManager.actionsSingle(account: account, token: asset.token, symbol: asset.symbol, fromActionSequence: fromActionSequence, limit: limit)
                 .map { $0.compactMap { Transaction(action: $0) } }
     }
 
@@ -188,11 +190,11 @@ extension EosKit: IBalanceManagerDelegate {
         syncingAssets.removeAll { matchingAssets.contains($0) }
     }
 
-    func didFailToSync(token: String) {
+    func didFailToSync(token: String, error: Error) {
         let matchingAssets = syncingAssets.filter { $0.token == token }
 
         for asset in matchingAssets {
-            asset.syncState = .notSynced
+            asset.syncState = .notSynced(error: error)
         }
 
         syncingAssets.removeAll { matchingAssets.contains($0) }
@@ -278,16 +280,25 @@ extension EosKit {
 
 extension EosKit {
 
-    public enum SyncState: CustomStringConvertible {
+    public enum SyncState: CustomStringConvertible, Equatable {
         case synced
         case syncing
-        case notSynced
+        case notSynced(error: Error)
 
         public var description: String {
             switch self {
             case .synced: return "synced"
             case .syncing: return "syncing"
-            case .notSynced: return "not synced"
+            case .notSynced(let error): return "not synced: \(error)"
+            }
+        }
+
+        public static func ==(lhs: SyncState, rhs: SyncState) -> Bool {
+            switch (lhs, rhs) {
+            case (.synced, .synced): return true
+            case (.syncing, .syncing): return true
+            case (.notSynced(let lhsError), .notSynced(let rhsError)): return "\(lhsError)" == "\(rhsError)"
+            default: return false
             }
         }
 
@@ -300,6 +311,10 @@ extension EosKit {
 
     public enum ValidationError: Error {
         case invalidPrivateKey
+    }
+
+    public enum SyncError: Error {
+        case notStarted
     }
 
 }

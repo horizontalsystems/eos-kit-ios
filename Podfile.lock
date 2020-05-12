@@ -79,7 +79,7 @@ CHECKOUT OPTIONS:
     :commit: 7ac04899e62012e225e0ea48a96951de0b72ad08
     :git: https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git
   HsToolKit.swift:
-    :commit: 95152c6c3ca9a924f256c0c36de1a90caa02644b
+    :commit: b97c6224fee8d7b554a8e49e289ccdf131617dff
     :git: https://github.com/horizontalsystems/hs-tool-kit-ios
 
 SPEC CHECKSUMS:
