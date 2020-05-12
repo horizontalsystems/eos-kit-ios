@@ -15,7 +15,7 @@ protocol IStorage {
 
 protocol IBalanceManagerDelegate: AnyObject {
     func didSync(token: String, balances: [Balance])
-    func didFailToSync(token: String)
+    func didFailToSync(token: String, error: Error)
 }
 
 protocol IActionManagerDelegate: AnyObject {

@@ -29,7 +29,7 @@ class BalanceManager {
             case .failure(let error):
                 self?.logger.error("BalanceManager sync failure for \(token): \(error.reason)")
 
-                self?.delegate?.didFailToSync(token: token)
+                self?.delegate?.didFailToSync(token: token, error: error)
             }
         }
     }

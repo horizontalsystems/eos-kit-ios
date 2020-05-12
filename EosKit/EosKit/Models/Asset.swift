@@ -11,7 +11,7 @@ public class Asset {
         }
     }
 
-    public var syncState: EosKit.SyncState = .notSynced {
+    public var syncState: EosKit.SyncState = .notSynced(error: EosKit.SyncError.notStarted) {
         didSet {
             syncStateSubject.onNext(syncState)
         }
