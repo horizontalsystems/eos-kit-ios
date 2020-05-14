@@ -138,6 +138,10 @@ extension EosKit {
                 .map { $0.compactMap { Transaction(action: $0) } }
     }
 
+    public func transaction(asset: Asset, actionSequence: Int) -> Transaction? {
+        actionManager.action(account: account, token: asset.token, symbol: asset.symbol, actionSequence: actionSequence).flatMap { Transaction(action: $0) }
+    }
+
     public func sendSingle(asset: Asset, to: String, amount: Decimal, memo: String) -> Single<String?> {
         let formatter = EosKit.formatter
         formatter.minimumFractionDigits = asset.decimalCount

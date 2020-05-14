@@ -63,4 +63,8 @@ extension EosAdapter {
         return eosKit.transactionsSingle(asset: asset, fromActionSequence: fromActionSequence, limit: limit)
     }
 
+    func transaction(actionSequence: Int) -> Transaction? {
+        eosKit.transaction(asset: asset, actionSequence: actionSequence)
+    }
+
 }
