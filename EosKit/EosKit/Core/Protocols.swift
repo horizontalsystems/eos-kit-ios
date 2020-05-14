@@ -11,6 +11,7 @@ protocol IStorage {
     func save(actions: [Action])
 
     func actionsSingle(receiver: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]>
+    func action(receiver: String, token: String, symbol: String, actionSequence: Int) -> Action?
 }
 
 protocol IBalanceManagerDelegate: AnyObject {

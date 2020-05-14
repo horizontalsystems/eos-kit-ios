@@ -123,6 +123,12 @@ extension Storage: IStorage {
         }
     }
 
+    func action(receiver: String, token: String, symbol: String, actionSequence: Int) -> Action? {
+        try? dbPool.read { db in
+            try Action.filter(Action.Columns.receiver == receiver && Action.Columns.account == token && Action.Columns.name == "transfer" && Action.Columns.symbol == symbol && Action.Columns.accountActionSequence == actionSequence).fetchOne(db)
+        }
+    }
+
 }
 
 extension Decimal: DatabaseValueConvertible {

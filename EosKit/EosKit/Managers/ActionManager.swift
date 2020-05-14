@@ -22,7 +22,11 @@ class ActionManager {
     }
 
     func actionsSingle(account: String, token: String, symbol: String, fromActionSequence: Int?, limit: Int?) -> Single<[Action]> {
-        return storage.actionsSingle(receiver: account, token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+        storage.actionsSingle(receiver: account, token: token, symbol: symbol, fromActionSequence: fromActionSequence, limit: limit)
+    }
+
+    func action(account: String, token: String, symbol: String, actionSequence: Int) -> Action? {
+        storage.action(receiver: account, token: token, symbol: symbol, actionSequence: actionSequence)
     }
 
     func sync(account: String) {
