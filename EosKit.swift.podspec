@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'GRDB.swift', '~> 4.0'
   spec.dependency 'HsToolKit.swift', '~> 1.0'
 
-  spec.dependency 'EosioSwift', '~> 0.2.1'
-  spec.dependency 'EosioSwiftAbieosSerializationProvider', '~> 0.2.1'
-  spec.dependency 'EosioSwiftSoftkeySignatureProvider', '~> 0.2.1'
+  spec.dependency 'EosioSwift', '~> 0.4.0'
+  spec.dependency 'EosioSwiftAbieosSerializationProvider', '~> 0.4.0'
+  spec.dependency 'EosioSwiftSoftkeySignatureProvider', '~> 0.4.0'
 end
