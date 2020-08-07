@@ -15,7 +15,10 @@ def common_pods
 
   pod 'EosioSwift', git: 'https://github.com/horizontalsystems/eosio-swift'
   pod 'EosioSwiftAbieosSerializationProvider', git: 'https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git'
-  pod 'EosioSwiftSoftkeySignatureProvider', '~> 0.2.1'
+  pod 'EosioSwiftEcc', git: 'https://github.com/horizontalsystems/eosio-swift-ecc.git'
+  pod 'EosioSwiftSoftkeySignatureProvider', git: 'https://github.com/horizontalsystems/eosio-swift-softkey-signature-provider.git'
+
+  pod 'UIExtensions.swift', git: 'https://github.com/horizontalsystems/gui-kit/'
 end
 
 def test_pods
