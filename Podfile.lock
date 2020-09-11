@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (5.2.2)
-  - BigInt (5.0.0)
+  - BigInt (5.2.0)
   - Cuckoo (1.4.1):
     - Cuckoo/Swift (= 1.4.1)
   - Cuckoo/Swift (1.4.1)
@@ -43,7 +43,7 @@ PODS:
 
 DEPENDENCIES:
   - Cuckoo
-  - EosioSwift (from `https://github.com/horizontalsystems/eosio-swift`, branch `data_hex`)
+  - EosioSwift (from `https://github.com/horizontalsystems/eosio-swift`)
   - EosioSwiftAbieosSerializationProvider (from `https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git`)
   - EosioSwiftEcc (from `https://github.com/horizontalsystems/eosio-swift-ecc.git`)
   - EosioSwiftSoftkeySignatureProvider (from `https://github.com/horizontalsystems/eosio-swift-softkey-signature-provider.git`)
@@ -52,7 +52,7 @@ DEPENDENCIES:
   - Nimble
   - Quick
   - RxSwift (~> 5.0)
-  - UIExtensions.swift (from `https://github.com/horizontalsystems/gui-kit/`, branch `data_hex`)
+  - UIExtensions.swift (from `https://github.com/horizontalsystems/gui-kit/`)
 
 SPEC REPOS:
   trunk:
@@ -69,7 +69,6 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   EosioSwift:
-    :branch: data_hex
     :git: https://github.com/horizontalsystems/eosio-swift
   EosioSwiftAbieosSerializationProvider:
     :git: https://github.com/horizontalsystems/eosio-swift-abieos-serialization-provider.git
@@ -80,12 +79,11 @@ EXTERNAL SOURCES:
   HsToolKit.swift:
     :git: https://github.com/horizontalsystems/hs-tool-kit-ios
   UIExtensions.swift:
-    :branch: data_hex
     :git: https://github.com/horizontalsystems/gui-kit/
 
 CHECKOUT OPTIONS:
   EosioSwift:
-    :commit: 981b4527c52f1faa75db3b0336ea654b6ea60a2c
+    :commit: 2eaa0415c3adedaf957d4bd5505627b59fefa032
     :git: https://github.com/horizontalsystems/eosio-swift
   EosioSwiftAbieosSerializationProvider:
     :commit: 40f8c7e604667c0c16713143501e74e1b0b958de
@@ -100,12 +98,12 @@ CHECKOUT OPTIONS:
     :commit: 2f4b640e92bf845a454cec3bbe74f68fdb402a8f
     :git: https://github.com/horizontalsystems/hs-tool-kit-ios
   UIExtensions.swift:
-    :commit: 5bb561a50b9a52f0678381c64abe286137d50803
+    :commit: 7f95e9a3125c34712cb73884f2479bb5d15c75f8
     :git: https://github.com/horizontalsystems/gui-kit/
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
-  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
+  BigInt: f668a80089607f521586bbe29513d708491ef2f7
   Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
   EosioSwift: 9f221d8111c67d5dad7b66348f6bec1b7e928022
   EosioSwiftAbieosSerializationProvider: eba59a5335200175ccb71546388b81e98cd3213d
@@ -121,6 +119,6 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   UIExtensions.swift: b3852a339a81c730d98b3342ae0275e807703782
 
-PODFILE CHECKSUM: 0355825e0b08d7b4a375de9955e4daf4d3e98e53
+PODFILE CHECKSUM: 5274107c70ef1bfbe6752601f5c0c1bac3c1511c
 
 COCOAPODS: 1.9.1
